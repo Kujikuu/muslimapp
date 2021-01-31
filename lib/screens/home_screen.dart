@@ -348,9 +348,9 @@ void scheduleAlarm(DateTime scheduledNotificationDateTime) async {
     'alarm_notif',
     'alarm_notif',
     'Channel for Alarm notification',
-    icon: 'codex_logo',
+    icon: 'ic_launcher',
     sound: RawResourceAndroidNotificationSound('a_long_cold_sting'),
-    largeIcon: DrawableResourceAndroidBitmap('codex_logo'),
+    largeIcon: DrawableResourceAndroidBitmap('ic_launcher'),
   );
 
   var iOSPlatformChannelSpecifics = IOSNotificationDetails(
