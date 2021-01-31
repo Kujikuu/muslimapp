@@ -7,6 +7,9 @@ import 'package:intl/intl.dart';
 import 'package:mulsim_app/main.dart';
 import 'package:mulsim_app/ulit/constants.dart';
 import 'package:location/location.dart';
+import 'package:mulsim_app/widgets/home_banner.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
+import 'package:threading/threading.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -57,8 +60,73 @@ class _HomeScreenState extends State<HomeScreen> {
         });
       }
     });
-
+    var thread = new Thread(work);
+    thread.start();
+    // loadPrefs();
     super.initState();
+  }
+
+  // bool isMuted = false;
+  // loadPrefs() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final key = 'mute';
+  //   final value = prefs.getInt(key) ?? 0;
+  //   setState(() {
+  //     value == 1 ? isMuted = true : isMuted = false;
+  //   });
+  // }
+
+  String _nxtPrayerName;
+  var _nxtPrayerImg;
+  var _prayernxt;
+  void work() async {
+    // print('Work Begins ...');
+    while (true) {
+      await Thread.sleep(10000);
+      if (_prayernxt.difference(DateTime.now()).inSeconds == 15) {
+        SendAlarm(
+            timetoshedule: DateTime.now(),
+            title: _nxtPrayerName,
+            desc: "$_nxtPrayerName is about start, don`t mess it.");
+      }
+      setState(() {
+        switch (prayerTimes.nextPrayer()) {
+          case Prayer.dhuhr:
+            _nxtPrayerName = "Dhur";
+            _nxtPrayerImg =
+                'https://oshawamosque.com/wp-content/uploads/2020/04/Dhuhr-Prayer-English.png';
+            _prayernxt = prayerTimes.dhuhr;
+            break;
+          case Prayer.asr:
+            _nxtPrayerName = "Asr";
+            _nxtPrayerImg =
+                'https://oshawamosque.com/wp-content/uploads/2020/04/Asr-Prayer-English.png';
+            _prayernxt = prayerTimes.asr;
+            break;
+          case Prayer.fajr:
+            _nxtPrayerName = "Fajr";
+            _nxtPrayerImg =
+                'https://oshawamosque.com/wp-content/uploads/2020/04/Fajr-Prayer-English.png';
+            _prayernxt = prayerTimes.fajr;
+            break;
+          case Prayer.maghrib:
+            _nxtPrayerName = "Maghrib";
+            _nxtPrayerImg =
+                'https://oshawamosque.com/wp-content/uploads/2020/04/Maghrib-Prayer-English.png';
+            _prayernxt = prayerTimes.maghrib;
+            break;
+          case Prayer.isha:
+            _nxtPrayerName = "Isha";
+            _nxtPrayerImg =
+                'https://oshawamosque.com/wp-content/uploads/2020/04/Isha-Prayer-English.png';
+            _prayernxt = prayerTimes.isha;
+            break;
+          default:
+            _nxtPrayerName = "None";
+            break;
+        }
+      });
+    }
   }
 
   @override
@@ -69,9 +137,6 @@ class _HomeScreenState extends State<HomeScreen> {
     String formattedDate = DateFormat('EEEE, d MMMM').format(now);
     var hijriformat = new HijriCalendar.now();
 
-    String _nxtPrayerName;
-    var _nxtPrayerImg;
-    var _prayernxt;
     switch (prayerTimes.nextPrayer()) {
       case Prayer.dhuhr:
         _nxtPrayerName = "Dhur";
@@ -254,107 +319,19 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class HomeBanner extends StatelessWidget {
-  const HomeBanner(
-      {Key key,
-      @required this.deviceHeight,
-      @required this.deviceWidth,
-      @required this.prayerTimes,
-      @required nxtPrayerName,
-      @required nxtPrayerImg,
-      @required prayernxt})
-      : _nxtPrayerName = nxtPrayerName,
-        _nxtPrayerImg = nxtPrayerImg,
-        _prayernxt = prayernxt,
-        super(key: key);
-
-  final double deviceHeight;
-  final double deviceWidth;
-  final PrayerTimes prayerTimes;
-  final _nxtPrayerName;
-  final _nxtPrayerImg;
-  final _prayernxt;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: deviceHeight * .23,
-      width: deviceWidth,
-      padding: EdgeInsets.all(15),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          gradient:
-              LinearGradient(colors: [Color(0xff5b6afa), Color(0xff87ecfe)])),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: deviceWidth * .20,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(5)),
-                          child:
-                              Icon(Icons.notifications, color: Colors.white)),
-                      Text('Mute', style: TextStyle(color: Colors.white))
-                    ]),
-              ),
-              SizedBox(height: 20),
-              Text('Next Prayer',
-                  style: TextStyle(color: Colors.white, fontSize: 15)),
-              Text(DateFormat.jm().format(_prayernxt),
-                  style: TextStyle(color: Colors.white, fontSize: 35)),
-              SizedBox(height: 5),
-              Text(
-                _prayernxt.difference(DateTime.now()).inHours > 0
-                    ? _prayernxt
-                            .difference(DateTime.now())
-                            .inHours
-                            .floor()
-                            .toString() +
-                        ' hours left untill ' +
-                        _nxtPrayerName
-                    : _prayernxt
-                            .difference(DateTime.now())
-                            .inMinutes
-                            .floor()
-                            .toString() +
-                        ' minutes left untill ' +
-                        _nxtPrayerName,
-                style: TextStyle(color: Colors.white),
-              )
-            ],
-          ),
-          Container(
-            height: 140,
-            // transform: Matrix4.translationValues(0.0, -20.0, 0.0),
-            child: CachedNetworkImage(imageUrl: _nxtPrayerImg),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-void scheduleAlarm(DateTime scheduledNotificationDateTime) async {
+Future SendAlarm(
+    {DateTime timetoshedule, String title, String desc, String sound}) async {
   var androidPlatformChannelSpecifics = AndroidNotificationDetails(
     'alarm_notif',
     'alarm_notif',
     'Channel for Alarm notification',
-    icon: 'ic_launcher',
-    sound: RawResourceAndroidNotificationSound('a_long_cold_sting'),
-    largeIcon: DrawableResourceAndroidBitmap('ic_launcher'),
+    icon: 'icon',
+    // sound: RawResourceAndroidNotificationSound('a_long_cold_sting'),
+    largeIcon: DrawableResourceAndroidBitmap('icon'),
   );
-
+  bool soundNotNull = sound != null ? true : false;
   var iOSPlatformChannelSpecifics = IOSNotificationDetails(
-      sound: 'a_long_cold_sting.wav',
+      sound: soundNotNull ? 'a_long_cold_sting.wav' : '',
       presentAlert: true,
       presentBadge: true,
       presentSound: true);
@@ -362,8 +339,8 @@ void scheduleAlarm(DateTime scheduledNotificationDateTime) async {
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics);
 
-  await flutterLocalNotificationsPlugin.schedule(0, 'Office', 'Title',
-      scheduledNotificationDateTime, platformChannelSpecifics);
+  await flutterLocalNotificationsPlugin.schedule(
+      1, desc, title, timetoshedule, platformChannelSpecifics);
 }
 
 //  appBar: AppBar(

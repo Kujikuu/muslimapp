@@ -23,6 +23,7 @@ dependencies:
   flutter_native_timezone: ^1.0.4
   cached_network_image: ^2.0.0
   provider:
+  threading:
   http:
   rxdart:
   path_provider:

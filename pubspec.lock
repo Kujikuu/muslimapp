@@ -448,6 +448,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.19-nullsafety.2"
+  threading:
+    dependency: "direct main"
+    description:
+      name: threading
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.10"
   timezone:
     dependency: "direct main"
     description:
