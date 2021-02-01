@@ -6,6 +6,11 @@
     <string>Your location is required .</string>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>Your location is required .</string>
+	<key>CFBundleLocalizations</key>
+<array>
+	<string>en</string>
+	<string>ar</string>
+</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

@@ -1,15 +1,13 @@
 import 'package:adhan/adhan.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:hijri/hijri_calendar.dart';
-import 'package:intl/intl.dart';
-import 'package:mulsim_app/main.dart';
+import 'package:mulsim_app/database/user_options.dart';
 import 'package:mulsim_app/ulit/constants.dart';
 import 'package:location/location.dart';
 import 'package:mulsim_app/widgets/home_banner.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mulsim_app/widgets/home_features.dart';
 import 'package:threading/threading.dart';
+import 'package:mulsim_app/ulit/LocalNotifyManager.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -20,7 +18,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final location = new Location();
   String locationError;
   PrayerTimes prayerTimes;
-
+  Future<List<UserOptions>> _userOptions;
+  Thread thread;
   Future<LocationData> getLocationData() async {
     var _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
@@ -43,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    super.initState();
     getLocationData().then((locationData) {
       if (!mounted) {
         return;
@@ -60,72 +60,78 @@ class _HomeScreenState extends State<HomeScreen> {
         });
       }
     });
-    var thread = new Thread(work);
+    thread = new Thread(work);
     thread.start();
-    // loadPrefs();
-    super.initState();
+    localNotifyManager.setOnNotificationReceive(onNotificationReceive);
+    localNotifyManager.setOnNotificationClick(onNotificationClick);
   }
 
-  // bool isMuted = false;
-  // loadPrefs() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   final key = 'mute';
-  //   final value = prefs.getInt(key) ?? 0;
-  //   setState(() {
-  //     value == 1 ? isMuted = true : isMuted = false;
-  //   });
-  // }
+  @override
+  void dispose() {
+    thread.join();
+    super.dispose();
+  }
 
+  onNotificationReceive(ReceiveNotification notification) {
+    print('Notification Received: ${notification.id}');
+  }
+
+  onNotificationClick(String payload) {
+    print('Payload: $payload');
+    // Navigator.push(
+    //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
+  }
+
+  bool isMuted = false;
   String _nxtPrayerName;
   var _nxtPrayerImg;
   var _prayernxt;
   void work() async {
-    // print('Work Begins ...');
     while (true) {
       await Thread.sleep(10000);
-      if (_prayernxt.difference(DateTime.now()).inSeconds == 15) {
-        SendAlarm(
-            timetoshedule: DateTime.now(),
-            title: _nxtPrayerName,
-            desc: "$_nxtPrayerName is about start, don`t mess it.");
+      var time = _prayernxt.difference(DateTime.now()).inSeconds;
+      if (time >= 15 && time <= 25) {
+        localNotifyManager.showFullScreenNotification(_nxtPrayerName,
+            '$_nxtPrayerName is about start. don`t mess it please!');
+
+        setState(() {
+          switch (prayerTimes.nextPrayer()) {
+            case Prayer.dhuhr:
+              _nxtPrayerName = "Dhur";
+              _nxtPrayerImg =
+                  'https://oshawamosque.com/wp-content/uploads/2020/04/Dhuhr-Prayer-English.png';
+              _prayernxt = prayerTimes.dhuhr;
+              break;
+            case Prayer.asr:
+              _nxtPrayerName = "Asr";
+              _nxtPrayerImg =
+                  'https://oshawamosque.com/wp-content/uploads/2020/04/Asr-Prayer-English.png';
+              _prayernxt = prayerTimes.asr;
+              break;
+            case Prayer.fajr:
+              _nxtPrayerName = "Fajr";
+              _nxtPrayerImg =
+                  'https://oshawamosque.com/wp-content/uploads/2020/04/Fajr-Prayer-English.png';
+              _prayernxt = prayerTimes.fajr;
+              break;
+            case Prayer.maghrib:
+              _nxtPrayerName = "Maghrib";
+              _nxtPrayerImg =
+                  'https://oshawamosque.com/wp-content/uploads/2020/04/Maghrib-Prayer-English.png';
+              _prayernxt = prayerTimes.maghrib;
+              break;
+            case Prayer.isha:
+              _nxtPrayerName = "Isha";
+              _nxtPrayerImg =
+                  'https://oshawamosque.com/wp-content/uploads/2020/04/Isha-Prayer-English.png';
+              _prayernxt = prayerTimes.isha;
+              break;
+            default:
+              _nxtPrayerName = "None";
+              break;
+          }
+        });
       }
-      setState(() {
-        switch (prayerTimes.nextPrayer()) {
-          case Prayer.dhuhr:
-            _nxtPrayerName = "Dhur";
-            _nxtPrayerImg =
-                'https://oshawamosque.com/wp-content/uploads/2020/04/Dhuhr-Prayer-English.png';
-            _prayernxt = prayerTimes.dhuhr;
-            break;
-          case Prayer.asr:
-            _nxtPrayerName = "Asr";
-            _nxtPrayerImg =
-                'https://oshawamosque.com/wp-content/uploads/2020/04/Asr-Prayer-English.png';
-            _prayernxt = prayerTimes.asr;
-            break;
-          case Prayer.fajr:
-            _nxtPrayerName = "Fajr";
-            _nxtPrayerImg =
-                'https://oshawamosque.com/wp-content/uploads/2020/04/Fajr-Prayer-English.png';
-            _prayernxt = prayerTimes.fajr;
-            break;
-          case Prayer.maghrib:
-            _nxtPrayerName = "Maghrib";
-            _nxtPrayerImg =
-                'https://oshawamosque.com/wp-content/uploads/2020/04/Maghrib-Prayer-English.png';
-            _prayernxt = prayerTimes.maghrib;
-            break;
-          case Prayer.isha:
-            _nxtPrayerName = "Isha";
-            _nxtPrayerImg =
-                'https://oshawamosque.com/wp-content/uploads/2020/04/Isha-Prayer-English.png';
-            _prayernxt = prayerTimes.isha;
-            break;
-          default:
-            _nxtPrayerName = "None";
-            break;
-        }
-      });
     }
   }
 
@@ -133,10 +139,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('EEEE, d MMMM').format(now);
-    var hijriformat = new HijriCalendar.now();
-
     switch (prayerTimes.nextPrayer()) {
       case Prayer.dhuhr:
         _nxtPrayerName = "Dhur";
@@ -228,166 +230,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                     child: ListView(
                   children: [
-                    buildVerses(deviceWidth, deviceHeight, context),
-                    buildVerses(deviceWidth, deviceHeight, context),
-                    buildVerses(deviceWidth, deviceHeight, context)
+                    buildFeatures(deviceWidth, deviceHeight),
                   ],
                 ))
               ],
             ),
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.location_searching), label: 'Qibla'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.timelapse), label: 'Prayers')
-          ],
-        ),
       );
   }
-
-  Padding buildVerses(
-      double deviceWidth, double deviceHeight, BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
-      child: Container(
-        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-        width: deviceWidth,
-        height: deviceHeight * 0.25,
-        decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            borderRadius: BorderRadius.circular(20)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: deviceWidth * 0.35,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CachedNetworkImage(
-                    height: 30,
-                    imageUrl:
-                        'https://images-na.ssl-images-amazon.com/images/I/41APHvabE0L.png',
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Verse of the day',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      Text(
-                        'Al-Jumu`a',
-                        style: TextStyle(color: Colors.white70),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 5),
-            Text(
-                'But never will they express their desire ( for Death), beacause of th (deeds) their hands have sent on before them! and Allah knows well those that do wrong!',
-                style: TextStyle(color: Colors.white)),
-            // SizedBox(height: 5),
-            Divider(color: Colors.white),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                FlatButton.icon(
-                    minWidth: deviceWidth / 2.6,
-                    onPressed: () {},
-                    textColor: Colors.white,
-                    icon: Icon(Icons.read_more),
-                    label: Text('Read')),
-                FlatButton.icon(
-                    minWidth: deviceWidth / 2.6,
-                    onPressed: () {},
-                    textColor: Colors.white,
-                    icon: Icon(Icons.share),
-                    label: Text('Share')),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
 }
-
-Future SendAlarm(
-    {DateTime timetoshedule, String title, String desc, String sound}) async {
-  var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-    'alarm_notif',
-    'alarm_notif',
-    'Channel for Alarm notification',
-    icon: 'icon',
-    // sound: RawResourceAndroidNotificationSound('a_long_cold_sting'),
-    largeIcon: DrawableResourceAndroidBitmap('icon'),
-  );
-  bool soundNotNull = sound != null ? true : false;
-  var iOSPlatformChannelSpecifics = IOSNotificationDetails(
-      sound: soundNotNull ? 'a_long_cold_sting.wav' : '',
-      presentAlert: true,
-      presentBadge: true,
-      presentSound: true);
-  var platformChannelSpecifics = NotificationDetails(
-      android: androidPlatformChannelSpecifics,
-      iOS: iOSPlatformChannelSpecifics);
-
-  await flutterLocalNotificationsPlugin.schedule(
-      1, desc, title, timetoshedule, platformChannelSpecifics);
-}
-
-//  appBar: AppBar(
-//           backgroundColor: Colors.transparent,
-//           elevation: 0,
-//           title: Text(appName, style: titleTxt),
-//           leading: IconButton(
-//             color: Colors.black54,
-//             hoverColor: Colors.black87,
-//             icon: Icon(Icons.menu),
-//             onPressed: () => Scaffold.of(context).openDrawer(),
-//           ),
-//           actions: [
-//             IconButton(
-//               color: Colors.black54,
-//               hoverColor: Colors.black87,
-//               icon: Icon(Icons.settings),
-//               onPressed: () {},
-//             )
-//           ],
-//         ),
-//         body: Builder(
-//           builder: (BuildContext context) {
-//             if (prayerTimes != null) {
-//               return Column(
-//                 children: [
-//                   Text(
-//                     'Prayer Times for Today',
-//                     textAlign: TextAlign.center,
-//                   ),
-//                   Text(
-//                       'Fajr Time: ' + DateFormat.jm().format(prayerTimes.fajr)),
-//                   Text('Sunrise Time: ' +
-//                       DateFormat.jm().format(prayerTimes.sunrise)),
-//                   Text('Dhuhr Time: ' +
-//                       DateFormat.jm().format(prayerTimes.dhuhr)),
-//                   Text('Asr Time: ' + DateFormat.jm().format(prayerTimes.asr)),
-//                   Text('Maghrib Time: ' +
-//                       DateFormat.jm().format(prayerTimes.maghrib)),
-//                   Text(
-//                       'Isha Time: ' + DateFormat.jm().format(prayerTimes.isha)),
-//                 ],
-//               );
-//             }
-//             if (locationError != null) {
-//               return Text(locationError);
-//             }
-//             return Text('Waiting for Your Location...');
-//           },
-//         )

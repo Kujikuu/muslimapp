@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:mulsim_app/screens/home_screen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mulsim_app/ulit/constants.dart';
-import 'package:provider/provider.dart';
 import 'package:mulsim_app/screens/welcome_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   var initializationSettingsAndroid = AndroidInitializationSettings('icon');
   var initializationSettingsIOS = IOSInitializationSettings(
       requestAlertPermission: true,
@@ -26,7 +25,6 @@ void main() async {
     }
   });
   runApp(MyApp());
-  // scheduleAlarm(DateTime.now());
 }
 
 class MyApp extends StatefulWidget {
@@ -38,6 +36,16 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('en', ''), // English, no country code
+          const Locale('ar', ''), // Arabic, no country code
+        ],
         debugShowCheckedModeBanner: false,
         title: 'Material App',
         theme: ThemeData(

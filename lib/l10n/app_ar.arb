@@ -1,0 +1,14 @@
+{
+  "getStart": "هيا نبدأ",
+  "@getStart": {
+  "description": "Air quality norm percentage label"
+},
+  "appName": "تطبيق المسلم",
+  "@appName": {
+  "description": "Air quality norm percentage label"
+},
+  "welcomeSubtitle" : "Prayer Times, Azan, Quran & Qibla",
+  "@welcomeSubtitle": {
+  "description": "Air quality norm percentage label"
+}
+}
