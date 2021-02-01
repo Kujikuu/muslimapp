@@ -7,7 +7,7 @@
   "@appName": {
   "description": "Air quality norm percentage label"
 },
-  "welcomeSubtitle" : "Prayer Times, Azan, Quran & Qibla",
+  "welcomeSubtitle" : "مواقيت الصلاة والقبلة والأذان",
   "@welcomeSubtitle": {
   "description": "Air quality norm percentage label"
 }
