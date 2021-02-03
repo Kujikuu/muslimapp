@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_qiblah/flutter_qiblah.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'loading_indicator.dart';
 import 'location_error_widget.dart';
 
@@ -123,8 +123,8 @@ class QiblahCompassWidget extends StatelessWidget {
             ),
             Positioned(
               bottom: 8,
-              child:
-                  Text("Qibla: ${qiblahDirection.offset.toStringAsFixed(3)}°"),
+              child: Text(
+                  "${AppLocalizations.of(context).qebla}: ${qiblahDirection.offset.toStringAsFixed(3)}°"),
             )
           ],
         );

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1097201731208",
+    "project_id": "muslimapp-27122",
+    "storage_bucket": "muslimapp-27122.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1097201731208:android:94299dd12d82c055a6013d",
+        "android_client_info": {
+          "package_name": "com.example.mulsim_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1097201731208-b0kcnq4sg6i2v07ghnnq5lr7ru847q92.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2z7ZFb1IiQFvo1Do6yLP34_OwszbOSCM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1097201731208-b0kcnq4sg6i2v07ghnnq5lr7ru847q92.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -10,5 +10,73 @@
   "welcomeSubtitle" : "مواقيت الصلاة والقبلة والأذان",
   "@welcomeSubtitle": {
   "description": "Air quality norm percentage label"
+},
+"home" : "الرئيسية",
+  "@home": {
+  "description": ""
+},
+"qebla" : "القبلة",
+  "@qebla": {
+  "description": ""
+},
+"prayers" : "الصلوات",
+  "@prayers": {
+  "description": ""
+},
+"nextprayer" : "الصلاة التالية",
+  "@nextprayer": {
+  "description": ""
+},
+"ring" : "رنين",
+  "@ring": {
+  "description": ""
+},
+"mute" : "صامت",
+  "@mute": {
+  "description": ""
+},
+"hoursleft" : "ساعات متبقية قبل",
+  "@hoursleft": {
+  "description": ""
+},
+"minsleft" : "دقائق متبقية قبل",
+  "@minsleft": {
+  "description": ""
+},
+"read" : "قراءة",
+  "@read": {
+  "description": ""
+},
+"share" : "مشاركة",
+  "@share": {
+  "description": ""
+},
+"featured" : "الأحدث",
+  "@featured": {
+  "description": ""
+},
+"viewall" : "مشاهدة الكل",
+  "@viewall": {
+  "description": ""
+},
+"duhur" : "الظهر",
+  "@duhur": {
+  "description": ""
+},
+"asr" : "العصر",
+  "@asr": {
+  "description": ""
+},
+"maghrib" : "المغرب",
+  "@maghrib": {
+  "description": ""
+},
+"isha" : "العشاء",
+  "@isha": {
+  "description": ""
+},
+"fajr" : "الفجر",
+  "@fajr": {
+  "description": ""
 }
 }

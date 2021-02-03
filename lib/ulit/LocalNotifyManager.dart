@@ -70,7 +70,8 @@ class LocalNotifyManager {
         payload: 'New Payload');
   }
 
-  Future<void> showFullScreenNotification(String title, String body) async {
+  Future<void> showFullScreenNotification(
+      String title, String body, DateTime date) async {
     var androidChannel = AndroidNotificationDetails(
         '2', 'FullAthanNotification', 'CHANNEL_DESCRIPTION',
         sound: RawResourceAndroidNotificationSound('azan2'),
@@ -88,7 +89,7 @@ class LocalNotifyManager {
       0,
       title,
       body,
-      DateTime.now().add(Duration(seconds: 5)),
+      date,
       platformChannel,
       payload: 'New Payload',
       androidAllowWhileIdle: true,

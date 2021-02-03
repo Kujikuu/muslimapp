@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mulsim_app/screens/home_screen.dart';
-import 'package:mulsim_app/screens/qebla_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mulsim_app/widgets/qebla_screen.dart';
 
 class Main_Screen extends StatefulWidget {
   @override
@@ -34,10 +35,14 @@ class _Main_ScreenState extends State<Main_Screen> {
         onTap: (index) => changeTab(index),
         currentIndex: _currentIndex,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.location_searching), label: 'Qibla'),
-          BottomNavigationBarItem(icon: Icon(Icons.timelapse), label: 'Prayers')
+              icon: Icon(Icons.home), label: AppLocalizations.of(context).home),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.location_searching),
+              label: AppLocalizations.of(context).qebla),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.timelapse),
+              label: AppLocalizations.of(context).prayers)
         ],
       ),
     );

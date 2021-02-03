@@ -1,14 +1,82 @@
 {
   "getStart": "Get Started!",
   "@getStart": {
-  "description": "Air quality norm percentage label"
+  "description": ""
 },
   "appName": "Muslim App",
   "@appName": {
-  "description": "Air quality norm percentage label"
+  "description": ""
 },
   "welcomeSubtitle" : "Prayer Times, Azan, Quran & Qibla",
   "@welcomeSubtitle": {
-  "description": "Air quality norm percentage label"
+  "description": ""
+},
+"home" : "Home",
+  "@home": {
+  "description": ""
+},
+"qebla" : "Qibla",
+  "@qebla": {
+  "description": ""
+},
+"prayers" : "Prayers",
+  "@prayers": {
+  "description": ""
+},
+"nextprayer" : "Next Prayer",
+  "@nextprayer": {
+  "description": ""
+},
+"ring" : "Ring",
+  "@ring": {
+  "description": ""
+},
+"mute" : "Mute",
+  "@mute": {
+  "description": ""
+},
+"hoursleft" : "hours left untill",
+  "@hoursleft": {
+  "description": ""
+},
+"minsleft" : "minutes left untill",
+  "@minsleft": {
+  "description": ""
+},
+"read" : "Read",
+  "@read": {
+  "description": ""
+},
+"share" : "Share",
+  "@share": {
+  "description": ""
+},
+"featured" : "Featured",
+  "@featured": {
+  "description": ""
+},
+"viewall" : "View All",
+  "@viewall": {
+  "description": ""
+},
+"duhur" : "Duhur",
+  "@duhur": {
+  "description": ""
+},
+"asr" : "Asr",
+  "@asr": {
+  "description": ""
+},
+"maghrib" : "Maghrib",
+  "@maghrib": {
+  "description": ""
+},
+"isha" : "Isha",
+  "@isha": {
+  "description": ""
+},
+"fajr" : "Fajr",
+  "@fajr": {
+  "description": ""
 }
 }

@@ -1,64 +1,149 @@
 import 'package:adhan/adhan.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
+import 'package:location/location.dart';
+import 'package:mulsim_app/ulit/LocalNotifyManager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:threading/threading.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeBanner extends StatefulWidget {
-  const HomeBanner(
-      {Key key,
-      @required this.deviceHeight,
-      @required this.deviceWidth,
-      @required this.prayerTimes,
-      @required nxtPrayerName,
-      @required nxtPrayerImg,
-      @required prayernxt})
-      : _nxtPrayerName = nxtPrayerName,
-        _nxtPrayerImg = nxtPrayerImg,
-        _prayernxt = prayernxt,
-        super(key: key);
-
-  final double deviceHeight;
-  final double deviceWidth;
-  final PrayerTimes prayerTimes;
-  final _nxtPrayerName;
-  final _nxtPrayerImg;
-  final _prayernxt;
-
   @override
   _HomeBannerState createState() => _HomeBannerState();
 }
 
 class _HomeBannerState extends State<HomeBanner> {
-  bool isMuted = false;
-  @override
-  void initState() {
-    // loadPrefs();
-    super.initState();
+  final location = new Location();
+  String locationError;
+  PrayerTimes prayerTimes;
+  Thread thread;
+  Future<LocationData> getLocationData() async {
+    var _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return null;
+      }
+    }
+
+    var _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return null;
+      }
+    }
+
+    return await location.getLocation();
   }
 
-  // loadPrefs() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   final key = 'mute';
-  //   final value = prefs.getInt(key) ?? 0;
-  //   setState(() {
-  //     value == 1 ? isMuted = true : isMuted = false;
-  //   });
-  // }
+  @override
+  initState() {
+    super.initState();
 
-  // savePrefs() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   final key = 'mute';
-  //   final value = isMuted ? 0 : 1;
-  //   prefs.setInt(key, value);
-  //   loadPrefs();
-  // }
+    getLocationData().then((locationData) {
+      if (!mounted) {
+        return;
+      }
+      if (locationData != null) {
+        setState(() {
+          prayerTimes = PrayerTimes(
+              Coordinates(locationData.latitude, locationData.longitude),
+              DateComponents.from(DateTime.now()),
+              CalculationMethod.karachi.getParameters());
+        });
+      } else {
+        setState(() {
+          locationError = "Couldn't Get Your Location!";
+        });
+      }
+    });
+    localNotifyManager.setOnNotificationReceive(onNotificationReceive);
+    localNotifyManager.setOnNotificationClick(onNotificationClick);
+    loadPrefs();
+  }
 
+  loadPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _isMuted = prefs.getBool("mute") ?? false;
+    await AndroidAlarmManager.periodic(const Duration(days: 1), 0, schedules);
+  }
+
+  onNotificationReceive(ReceiveNotification notification) {
+    print('Notification Received: ${notification.id}');
+  }
+
+  onNotificationClick(String payload) {
+    print('Payload: $payload');
+  }
+
+  String _nxtPrayerName;
+  var _nxtPrayerImg;
+  var _prayernxt;
+  void schedules() {
+    localNotifyManager.showFullScreenNotification(
+        AppLocalizations.of(context).duhur,
+        "${AppLocalizations.of(context).duhur} ${prayerTimes.dhuhr}",
+        prayerTimes.dhuhr);
+    localNotifyManager.showFullScreenNotification(
+        AppLocalizations.of(context).asr,
+        "${AppLocalizations.of(context).asr} ${prayerTimes.asr}",
+        prayerTimes.asr);
+    localNotifyManager.showFullScreenNotification(
+        AppLocalizations.of(context).maghrib,
+        "${AppLocalizations.of(context).maghrib} ${prayerTimes.maghrib}",
+        prayerTimes.maghrib);
+    localNotifyManager.showFullScreenNotification(
+        AppLocalizations.of(context).isha,
+        "${AppLocalizations.of(context).isha} ${prayerTimes.isha}",
+        prayerTimes.isha);
+    localNotifyManager.showFullScreenNotification(
+        AppLocalizations.of(context).fajr,
+        "${AppLocalizations.of(context).fajr} ${prayerTimes.fajr}",
+        prayerTimes.fajr);
+  }
+
+  bool _isMuted;
   @override
   Widget build(BuildContext context) {
+    final deviceHeight = MediaQuery.of(context).size.height;
+    final deviceWidth = MediaQuery.of(context).size.width;
+    switch (prayerTimes.nextPrayer()) {
+      case Prayer.dhuhr:
+        _nxtPrayerName = AppLocalizations.of(context).duhur;
+        _nxtPrayerImg = 'assets/prayers/Dhuhr.png';
+        _prayernxt = prayerTimes.dhuhr;
+        break;
+      case Prayer.asr:
+        _nxtPrayerName = AppLocalizations.of(context).asr;
+        _nxtPrayerImg = 'assets/prayers/Asr.png';
+        _prayernxt = prayerTimes.asr;
+        break;
+      case Prayer.fajr:
+        _nxtPrayerName = AppLocalizations.of(context).fajr;
+        _nxtPrayerImg = 'assets/prayers/Fajr.png';
+        _prayernxt = prayerTimes.fajr;
+        break;
+      case Prayer.maghrib:
+        _nxtPrayerName = AppLocalizations.of(context).maghrib;
+        _nxtPrayerImg = 'assets/prayers/Maghrib.png';
+        _prayernxt = prayerTimes.maghrib;
+        break;
+      case Prayer.isha:
+        _nxtPrayerName = AppLocalizations.of(context).isha;
+        _nxtPrayerImg = 'assets/prayers/Isha.png';
+        _prayernxt = prayerTimes.isha;
+        break;
+      default:
+        _nxtPrayerName = AppLocalizations.of(context).fajr;
+        _nxtPrayerImg = 'assets/prayers/Fajr.png';
+        _prayernxt = prayerTimes.fajr;
+        break;
+    }
     return Container(
-      height: widget.deviceHeight * .23,
-      width: widget.deviceWidth,
+      height: deviceHeight * .25,
+      width: deviceWidth,
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
@@ -71,7 +156,7 @@ class _HomeBannerState extends State<HomeBanner> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: widget.deviceWidth * .20,
+                width: deviceWidth * .20,
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -81,41 +166,51 @@ class _HomeBannerState extends State<HomeBanner> {
                               color: Colors.white.withOpacity(0.2),
                               borderRadius: BorderRadius.circular(5)),
                           child: GestureDetector(
-                            onTap: () {
-                              // savePrefs();
+                            onTap: () async {
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              _isMuted
+                                  ? prefs.setBool("mute", false)
+                                  : prefs.setBool("mute", true);
+                              setState(() {
+                                _isMuted = prefs.getBool("mute") ?? false;
+                              });
                             },
                             child: Icon(
-                                isMuted
+                                _isMuted
                                     ? Icons.notifications
                                     : Icons.notifications_off,
                                 color: Colors.white),
                           )),
-                      Text(isMuted ? 'Ring' : 'Mute',
+                      Text(
+                          _isMuted
+                              ? AppLocalizations.of(context).ring
+                              : AppLocalizations.of(context).mute,
                           style: TextStyle(color: Colors.white))
                     ]),
               ),
-              SizedBox(height: 20),
-              Text('Next Prayer',
+              SizedBox(height: 10),
+              Text(AppLocalizations.of(context).nextprayer,
                   style: TextStyle(color: Colors.white, fontSize: 15)),
-              Text(DateFormat.jm().format(widget._prayernxt),
+              Text(DateFormat.jm().format(_prayernxt),
                   style: TextStyle(color: Colors.white, fontSize: 35)),
               SizedBox(height: 5),
               Text(
-                widget._prayernxt.difference(DateTime.now()).inHours > 0
-                    ? widget._prayernxt
+                _prayernxt.difference(DateTime.now()).inHours > 0
+                    ? _prayernxt
                             .difference(DateTime.now())
                             .inHours
                             .floor()
                             .toString() +
-                        ' hours left untill ' +
-                        widget._nxtPrayerName
-                    : widget._prayernxt
+                        ' ${AppLocalizations.of(context).hoursleft} ' +
+                        _nxtPrayerName
+                    : _prayernxt
                             .difference(DateTime.now())
                             .inMinutes
                             .floor()
                             .toString() +
-                        ' minutes left untill ' +
-                        widget._nxtPrayerName,
+                        ' ${AppLocalizations.of(context).minsleft} ' +
+                        _nxtPrayerName,
                 style: TextStyle(color: Colors.white),
               )
             ],
@@ -123,10 +218,12 @@ class _HomeBannerState extends State<HomeBanner> {
           Container(
             height: 140,
             // transform: Matrix4.translationValues(0.0, -20.0, 0.0),
-            child: CachedNetworkImage(imageUrl: widget._nxtPrayerImg),
+            child: Image.asset(_nxtPrayerImg),
           )
         ],
       ),
     );
   }
 }
+
+HomeBanner homeBanner = HomeBanner();
