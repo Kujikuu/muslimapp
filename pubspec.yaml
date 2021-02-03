@@ -40,6 +40,8 @@ dependencies:
   android_alarm_manager:
   font_awesome_flutter:
   url_launcher:
+  launch_review:
+  nb_utils:
   cron:
   flutter_localizations:
     sdk: flutter

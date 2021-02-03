@@ -29,6 +29,7 @@ class _LanguagesettingsState extends State<Languagesettings> {
               MyApp.setLocale(context, newLocale);
               SharedPreferences prefs = await SharedPreferences.getInstance();
               prefs.setString("lan", "ar");
+              Navigator.pop(context);
             },
           ),
           ListTile(
@@ -40,6 +41,7 @@ class _LanguagesettingsState extends State<Languagesettings> {
               MyApp.setLocale(context, newLocale);
               SharedPreferences prefs = await SharedPreferences.getInstance();
               prefs.setString("lan", "en");
+              Navigator.pop(context);
             },
           )
         ],

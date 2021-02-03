@@ -38,10 +38,70 @@ class _HomeBannerState extends State<HomeBanner> {
     return await location.getLocation();
   }
 
+  static var method;
+  static var params;
+
+  setMethod() {
+    switch (method) {
+      case 'egyptian':
+        setState(() {
+          params = CalculationMethod.egyptian.getParameters();
+        });
+        break;
+      case 'karachi':
+        setState(() {
+          params = CalculationMethod.karachi.getParameters();
+        });
+        break;
+      case 'dubai':
+        setState(() {
+          params = CalculationMethod.dubai.getParameters();
+        });
+        break;
+      case 'kuwait':
+        setState(() {
+          params = CalculationMethod.kuwait.getParameters();
+        });
+        break;
+      case 'muslim_world_league':
+        setState(() {
+          params = CalculationMethod.muslim_world_league.getParameters();
+        });
+        break;
+      case 'north_america':
+        setState(() {
+          params = CalculationMethod.north_america.getParameters();
+        });
+        break;
+      case 'qatar':
+        setState(() {
+          params = CalculationMethod.qatar.getParameters();
+        });
+        break;
+      case 'singapore':
+        setState(() {
+          params = CalculationMethod.singapore.getParameters();
+        });
+        break;
+    }
+  }
+
   @override
   initState() {
     super.initState();
+    loadPrefs();
 
+    localNotifyManager.setOnNotificationReceive(onNotificationReceive);
+    localNotifyManager.setOnNotificationClick(onNotificationClick);
+  }
+
+  loadPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isMuted = prefs.getBool("mute") ?? false;
+      method = prefs.getString("method") ?? 'egyptian';
+    });
+    setMethod();
     getLocationData().then((locationData) {
       if (!mounted) {
         return;
@@ -51,7 +111,7 @@ class _HomeBannerState extends State<HomeBanner> {
           prayerTimes = PrayerTimes(
               Coordinates(locationData.latitude, locationData.longitude),
               DateComponents.from(DateTime.now()),
-              CalculationMethod.karachi.getParameters());
+              params);
         });
       } else {
         setState(() {
@@ -59,15 +119,8 @@ class _HomeBannerState extends State<HomeBanner> {
         });
       }
     });
-    localNotifyManager.setOnNotificationReceive(onNotificationReceive);
-    localNotifyManager.setOnNotificationClick(onNotificationClick);
-    loadPrefs();
-  }
 
-  loadPrefs() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _isMuted = prefs.getBool("mute") ?? false;
-    await AndroidAlarmManager.periodic(const Duration(days: 1), 0, schedules);
+    // await AndroidAlarmManager.periodic(const Duration(days: 1), 0, schedules);
   }
 
   onNotificationReceive(ReceiveNotification notification) {

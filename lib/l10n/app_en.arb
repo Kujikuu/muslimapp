@@ -95,12 +95,28 @@
   "@notifications": {
   "description": ""
 },
-"colortheme" : "Color Theme",
+"colortheme" : "Color Themes",
   "@colortheme": {
   "description": ""
 },
 "rateapp" : "Rate App",
   "@rateapp": {
+  "description": ""
+},
+"ratesub" : "If you enjoy using Muslim app, would you mind talking a moment to rate it? It won`t take than a minute. Thanks for your support!",
+  "@ratesub": {
+  "description": ""
+},
+"nothanks" : "No Thanks",
+  "@nothanks": {
+  "description": ""
+},
+"ok" : "OK",
+  "@ok": {
+  "description": ""
+},
+"autosettings" : "Automatic Settings",
+  "@autosettings": {
   "description": ""
 },
 "today" : "Today",
@@ -125,6 +141,50 @@
 },
 "fajr" : "Fajr",
   "@fajr": {
+  "description": ""
+},
+"muslim_world_league" : "Muslim World League",
+  "@muslim_world_league": {
+  "description": ""
+},
+"egyptian" : "Egyptian General Authority of Survey",
+  "@egyptian": {
+  "description": ""
+},
+"karachi" : "University of Islamic Sciences",
+  "@karachi": {
+  "description": ""
+},
+"umm_al_qura" : "Umm al-Qura University",
+  "@umm_al_qura": {
+  "description": ""
+},
+"dubai" : "Method used in UAE",
+  "@dubai": {
+  "description": ""
+},
+"qatar" : "Qatar",
+  "@qatar": {
+  "description": ""
+},
+"kuwait" : "Kuwait",
+  "@kuwait": {
+  "description": ""
+},
+"singapore" : "Singapore",
+  "@singapore": {
+  "description": ""
+},
+"north_america" : "Islamic Society of North America",
+  "@north_america": {
+  "description": ""
+},
+"shafi" : "Standard (Shafi, Hanbali, Maliki)",
+  "@shafi": {
+  "description": ""
+},
+"hanafi" : "Hanafi",
+  "@hanafi": {
   "description": ""
 }
 }

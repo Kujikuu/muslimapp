@@ -22,6 +22,12 @@ class MyApp extends StatefulWidget {
     state.changeBrightness(newBrightness);
   }
 
+  static void setThemeColor(
+      BuildContext context, MaterialColor newcolor) async {
+    _MyAppState state = context.findAncestorStateOfType<_MyAppState>();
+    state.changeThemeColor(newcolor);
+  }
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -29,6 +35,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Locale _locale;
   var _brightness;
+  var _color;
 
   changeLanguage(Locale locale) {
     setState(() {
@@ -48,9 +55,21 @@ class _MyAppState extends State<MyApp> {
     changeBrightness(localeLoaded ? Brightness.light : Brightness.dark);
   }
 
+  loadThemeColor() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var localeLoaded = prefs.get("themename") ?? 'Colors.blue';
+    changeThemeColor(localeLoaded);
+  }
+
   changeBrightness(Brightness brightness) {
     setState(() {
       _brightness = brightness;
+    });
+  }
+
+  changeThemeColor(MaterialColor color) {
+    setState(() {
+      _color = color;
     });
   }
 
@@ -81,7 +100,7 @@ class _MyAppState extends State<MyApp> {
             appBarTheme: AppBarTheme(centerTitle: false),
             fontFamily: GoogleFonts.cairo().fontFamily,
             platform: TargetPlatform.iOS,
-            primarySwatch: Colors.blue,
+            primarySwatch: _color,
             brightness: _brightness,
             // primaryColor: primaryColor,
             visualDensity: VisualDensity.adaptivePlatformDensity),

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mulsim_app/main.dart';
+import 'package:mulsim_app/screens/colortheme_settings.dart';
 import 'package:mulsim_app/screens/lang_settings.dart';
 import 'package:mulsim_app/screens/prayertimes_screen.dart';
+import 'package:mulsim_app/widgets/rateapp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -85,18 +87,14 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                       borderRadius: BorderRadius.circular(10.0)),
                   child: Column(
                     children: <Widget>[
-                      ListTile(
-                        leading: Icon(
+                      SwitchListTile(
+                        value: true,
+                        title: Text(AppLocalizations.of(context).notifications),
+                        onChanged: (value) {},
+                        secondary: Icon(
                           Icons.notifications,
                         ),
-                        title: Text(AppLocalizations.of(context).notifications),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Languagesettings()));
-                        },
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -142,7 +140,7 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Languagesettings()));
+                                  builder: (context) => ColorThemeSettings()));
                         },
                       ),
                     ],
@@ -157,14 +155,14 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                     children: <Widget>[
                       ListTile(
                         leading: Icon(
-                          FontAwesomeIcons.quran,
+                          FontAwesomeIcons.solidStar,
                         ),
                         title: Text(AppLocalizations.of(context).rateapp),
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PrayerTimesSettings()));
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) => RateApp(),
+                          );
                         },
                       ),
                       _buildDivider(),

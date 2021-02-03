@@ -95,12 +95,28 @@
   "@notifications": {
   "description": ""
 },
-"colortheme" : "المظهر العام",
+"colortheme" : "تفضيلات المظهر",
   "@colortheme": {
   "description": ""
 },
 "rateapp" : "تقييم التطبيق",
   "@rateapp": {
+  "description": ""
+},
+"ratesub" : "إذا كنت تستمتع باستخدام تطبيق المسلم ، فهل تمانع في لحظة لتقييمه؟ لن يستغرق الأمر أكثر من دقيقة. شكرا لدعمك!",
+  "@ratesub": {
+  "description": ""
+},
+"nothanks" : "لا, شكراً",
+  "@nothanks": {
+  "description": ""
+},
+"ok" : "حسناً",
+  "@ok": {
+  "description": ""
+},
+"autosettings" : "الإعدادات الإفتراضية",
+  "@autosettings": {
   "description": ""
 },
 "today" : "اليوم",
@@ -125,6 +141,50 @@
 },
 "fajr" : "الفجر",
   "@fajr": {
+  "description": ""
+},
+"muslim_world_league" : "رابطة العالم الإسلامى",
+  "@muslim_world_league": {
+  "description": ""
+},
+"egyptian" : "الهيئة المصرية العامة للمساحة",
+  "@egyptian": {
+  "description": ""
+},
+"karachi" : "جامعة العلوم الإسلامية",
+  "@karachi": {
+  "description": ""
+},
+"umm_al_qura" : "جامعة ام القرى",
+  "@umm_al_qura": {
+  "description": ""
+},
+"dubai" : "دبى",
+  "@dubai": {
+  "description": ""
+},
+"qatar" : "قطر",
+  "@qatar": {
+  "description": ""
+},
+"kuwait" : "الكويت",
+  "@kuwait": {
+  "description": ""
+},
+"singapore" : "سنغافورا",
+  "@singapore": {
+  "description": ""
+},
+"north_america" : "الجمعية الإسلامية لأمريكا الشمالية",
+  "@north_america": {
+  "description": ""
+},
+"shafi" : "الإفتراضي ( شافعي, حنبلى,مليكي)",
+  "@shafi": {
+  "description": ""
+},
+"hanafi" : "حنفي",
+  "@hanafi": {
   "description": ""
 }
 }
