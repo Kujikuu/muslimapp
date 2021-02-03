@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var first = addresses.first;
-    setAdreesName(first.locality);
+    setAdreesName(first.subAdminArea);
   }
 
   @override
@@ -67,22 +67,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
+          padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      Locale newLocale = Locale('ar', '');
-                      MyApp.setLocale(context, newLocale);
-                    },
-                    child: Text(
-                      AppLocalizations.of(context).appName,
-                      style: titleTxt,
-                    ),
+                  Text(
+                    AppLocalizations.of(context).appName,
+                    style: titleTxt,
                   ),
                   Row(
                     children: [
@@ -95,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   )
                 ],
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 10),
               HomeBanner(),
               SizedBox(height: 20),
               Row(

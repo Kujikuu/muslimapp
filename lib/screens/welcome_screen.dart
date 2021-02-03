@@ -52,21 +52,25 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   height: 50,
                   child: RaisedButton(
                     elevation: 0,
-                    color: Color(0xfff9b090),
-                    textColor: Colors.white,
+                    // color: Color(0xfff9b090),
+                    // textColor: Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25)),
-                    onPressed: () async {
-                      FirebaseUser user =
-                          await FirebaseAuth.instance.currentUser();
-                      Navigator.pushReplacement(context, MaterialPageRoute(
-                        builder: (context) {
-                          if (user == null) {
-                            return LoginScreen();
-                          } else
-                            return LoginScreen();
-                        },
-                      ));
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Main_Screen()));
+                      // FirebaseUser user =
+                      //     await FirebaseAuth.instance.currentUser();
+                      // Navigator.pushReplacement(context, MaterialPageRoute(
+                      //   builder: (context) {
+                      //     if (user == null) {
+                      //       return LoginScreen();
+                      //     } else
+                      //       return LoginScreen();
+                      //   },
+                      // ));
                     },
                     child: Text(AppLocalizations.of(context).getStart),
                   ),

@@ -59,6 +59,54 @@
   "@viewall": {
   "description": ""
 },
+"settings" : "Settings",
+  "@settings": {
+  "description": ""
+},
+"langsettings" : "Language",
+  "@langsettings": {
+  "description": ""
+},
+"madhabsettings" : "Madhab",
+  "@madhabsettings": {
+  "description": ""
+},
+"methodsettings" : "Prayer time conventions",
+  "@methodsettings": {
+  "description": ""
+},
+"arabic" : "Arabic",
+  "@arabic": {
+  "description": ""
+},
+"english" : "English",
+  "@english": {
+  "description": ""
+},
+"prayertimes" : "Prayer Times",
+  "@prayertimes": {
+  "description": ""
+},
+"signuporlogin" : "Signup or Login",
+  "@signuporlogin": {
+  "description": ""
+},
+"notifications" : "Notifications",
+  "@notifications": {
+  "description": ""
+},
+"colortheme" : "Color Theme",
+  "@colortheme": {
+  "description": ""
+},
+"rateapp" : "Rate App",
+  "@rateapp": {
+  "description": ""
+},
+"today" : "Today",
+  "@today": {
+  "description": ""
+},
 "duhur" : "Duhur",
   "@duhur": {
   "description": ""

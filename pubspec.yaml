@@ -38,6 +38,8 @@ dependencies:
   cloud_firestore: ^0.12.9+5
   firebase_messaging: 
   android_alarm_manager:
+  font_awesome_flutter:
+  url_launcher:
   cron:
   flutter_localizations:
     sdk: flutter
@@ -54,6 +56,7 @@ flutter:
     - assets/
     - assets/translations/
     - assets/prayers/
+    - assets/lang/
 flutter_native_splash:
   color: "#42a5f5"
   image: assets/icon/icon.png

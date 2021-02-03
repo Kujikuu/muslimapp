@@ -59,6 +59,54 @@
   "@viewall": {
   "description": ""
 },
+"settings" : "الإعدادات",
+  "@settings": {
+  "description": ""
+},
+"langsettings" : "اللغة",
+  "@langsettings": {
+  "description": ""
+},
+"madhabsettings" : "تفضيلات المذهب",
+  "@madhabsettings": {
+  "description": ""
+},
+"methodsettings" : "تفضيلات وقت الأذان",
+  "@methodsettings": {
+  "description": ""
+},
+"prayertimes" : "مواقيت الصلاة",
+  "@prayertimes": {
+  "description": ""
+},
+"arabic" : "اللغة العربية",
+  "@arabic": {
+  "description": ""
+},
+"english" : "اللغة الإنجليزية",
+  "@english": {
+  "description": ""
+},
+"signuporlogin" : "الحساب",
+  "@signuporlogin": {
+  "description": ""
+},
+"notifications" : "التنبيهات",
+  "@notifications": {
+  "description": ""
+},
+"colortheme" : "المظهر العام",
+  "@colortheme": {
+  "description": ""
+},
+"rateapp" : "تقييم التطبيق",
+  "@rateapp": {
+  "description": ""
+},
+"today" : "اليوم",
+  "@today": {
+  "description": ""
+},
 "duhur" : "الظهر",
   "@duhur": {
   "description": ""
