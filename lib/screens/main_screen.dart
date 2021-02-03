@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mulsim_app/screens/home_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mulsim_app/screens/settings_screen.dart';
+import 'package:mulsim_app/settings/settings_screen.dart';
 import 'package:mulsim_app/widgets/qebla_screen.dart';
 
 class Main_Screen extends StatefulWidget {

@@ -7,6 +7,7 @@ import 'package:mulsim_app/ulit/LocalNotifyManager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:threading/threading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 class HomeBanner extends StatefulWidget {
   @override
@@ -17,7 +18,8 @@ class _HomeBannerState extends State<HomeBanner> {
   final location = new Location();
   String locationError;
   PrayerTimes prayerTimes;
-  Thread thread;
+  bool _loading;
+
   Future<LocationData> getLocationData() async {
     var _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
@@ -90,7 +92,6 @@ class _HomeBannerState extends State<HomeBanner> {
   initState() {
     super.initState();
     loadPrefs();
-
     localNotifyManager.setOnNotificationReceive(onNotificationReceive);
     localNotifyManager.setOnNotificationClick(onNotificationClick);
   }
@@ -100,6 +101,7 @@ class _HomeBannerState extends State<HomeBanner> {
     setState(() {
       _isMuted = prefs.getBool("mute") ?? false;
       method = prefs.getString("method") ?? 'egyptian';
+      _loading = false;
     });
     setMethod();
     getLocationData().then((locationData) {
@@ -194,88 +196,90 @@ class _HomeBannerState extends State<HomeBanner> {
         _prayernxt = prayerTimes.fajr;
         break;
     }
-    return Container(
-      height: deviceHeight * .25,
-      width: deviceWidth,
-      padding: EdgeInsets.all(15),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          gradient:
-              LinearGradient(colors: [Color(0xff5b6afa), Color(0xff87ecfe)])),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: deviceWidth * .20,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: GestureDetector(
-                            onTap: () async {
-                              SharedPreferences prefs =
-                                  await SharedPreferences.getInstance();
-                              _isMuted
-                                  ? prefs.setBool("mute", false)
-                                  : prefs.setBool("mute", true);
-                              setState(() {
-                                _isMuted = prefs.getBool("mute") ?? false;
-                              });
-                            },
-                            child: Icon(
+    return _loading
+        ? Container(
+            height: deviceHeight * .25,
+            width: deviceWidth,
+            padding: EdgeInsets.all(15),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                gradient: LinearGradient(
+                    colors: [Color(0xff5b6afa), Color(0xff87ecfe)])),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: deviceWidth * .20,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    SharedPreferences prefs =
+                                        await SharedPreferences.getInstance();
+                                    _isMuted
+                                        ? prefs.setBool("mute", false)
+                                        : prefs.setBool("mute", true);
+                                    setState(() {
+                                      _isMuted = prefs.getBool("mute") ?? false;
+                                    });
+                                  },
+                                  child: Icon(
+                                      _isMuted
+                                          ? Icons.notifications
+                                          : Icons.notifications_off,
+                                      color: Colors.white),
+                                )),
+                            Text(
                                 _isMuted
-                                    ? Icons.notifications
-                                    : Icons.notifications_off,
-                                color: Colors.white),
-                          )),
-                      Text(
-                          _isMuted
-                              ? AppLocalizations.of(context).ring
-                              : AppLocalizations.of(context).mute,
-                          style: TextStyle(color: Colors.white))
-                    ]),
-              ),
-              SizedBox(height: 10),
-              Text(AppLocalizations.of(context).nextprayer,
-                  style: TextStyle(color: Colors.white, fontSize: 15)),
-              Text(DateFormat.jm().format(_prayernxt),
-                  style: TextStyle(color: Colors.white, fontSize: 35)),
-              SizedBox(height: 5),
-              Text(
-                _prayernxt.difference(DateTime.now()).inHours > 0
-                    ? _prayernxt
-                            .difference(DateTime.now())
-                            .inHours
-                            .floor()
-                            .toString() +
-                        ' ${AppLocalizations.of(context).hoursleft} ' +
-                        _nxtPrayerName
-                    : _prayernxt
-                            .difference(DateTime.now())
-                            .inMinutes
-                            .floor()
-                            .toString() +
-                        ' ${AppLocalizations.of(context).minsleft} ' +
-                        _nxtPrayerName,
-                style: TextStyle(color: Colors.white),
-              )
-            ],
-          ),
-          Container(
-            height: 140,
-            // transform: Matrix4.translationValues(0.0, -20.0, 0.0),
-            child: Image.asset(_nxtPrayerImg),
+                                    ? AppLocalizations.of(context).ring
+                                    : AppLocalizations.of(context).mute,
+                                style: TextStyle(color: Colors.white))
+                          ]),
+                    ),
+                    SizedBox(height: 10),
+                    Text(AppLocalizations.of(context).nextprayer,
+                        style: TextStyle(color: Colors.white, fontSize: 15)),
+                    Text(DateFormat.jm().format(_prayernxt),
+                        style: TextStyle(color: Colors.white, fontSize: 35)),
+                    SizedBox(height: 5),
+                    Text(
+                      _prayernxt.difference(DateTime.now()).inHours > 0
+                          ? _prayernxt
+                                  .difference(DateTime.now())
+                                  .inHours
+                                  .floor()
+                                  .toString() +
+                              ' ${AppLocalizations.of(context).hoursleft} ' +
+                              _nxtPrayerName
+                          : _prayernxt
+                                  .difference(DateTime.now())
+                                  .inMinutes
+                                  .floor()
+                                  .toString() +
+                              ' ${AppLocalizations.of(context).minsleft} ' +
+                              _nxtPrayerName,
+                      style: TextStyle(color: Colors.white),
+                    )
+                  ],
+                ),
+                Container(
+                  height: 140,
+                  // transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+                  child: Image.asset(_nxtPrayerImg),
+                )
+              ],
+            ),
           )
-        ],
-      ),
-    );
+        : CircularProgressIndicator().center();
   }
 }
 

@@ -37,7 +37,7 @@ Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
 }
 
 Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
-  final deviceHeight = MediaQuery.of(context).size.height;
+  // final deviceHeight = MediaQuery.of(context).size.height;
   final deviceWidth = MediaQuery.of(context).size.width;
   final record = Record.fromSnapshot(data);
   return Padding(
