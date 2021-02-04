@@ -196,11 +196,11 @@ class _HomeBannerState extends State<HomeBanner> {
         _prayernxt = prayerTimes.fajr;
         break;
     }
-    return _loading
+    return !_loading
         ? Container(
-            height: deviceHeight * .25,
+            height: deviceHeight * .3,
             width: deviceWidth,
-            padding: EdgeInsets.all(15),
+            padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 gradient: LinearGradient(
