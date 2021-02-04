@@ -58,8 +58,19 @@ class _MyAppState extends State<MyApp> {
   }
 
   loadThemeColor() async {
+    List<Color> colorsThemes = [
+      Colors.blue,
+      Colors.amber,
+      Colors.green,
+      Colors.orange,
+      Colors.red,
+      Colors.purple,
+      Colors.pink,
+      Colors.blueGrey,
+      Colors.brown
+    ];
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var localeLoaded = prefs.get("themename") ?? 'Colors.blue';
+    Color localeLoaded = colorsThemes[prefs.get("themecolor") ?? 0];
     changeThemeColor(localeLoaded);
   }
 
@@ -69,7 +80,7 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  changeThemeColor(MaterialColor color) {
+  changeThemeColor(Color color) {
     setState(() {
       _color = color;
     });
@@ -79,6 +90,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     loadLanguage();
     loadBrightness();
+    loadThemeColor();
     super.initState();
   }
 
@@ -97,7 +109,7 @@ class _MyAppState extends State<MyApp> {
         ],
         locale: _locale,
         debugShowCheckedModeBanner: false,
-        title: 'Material App',
+        title: 'Muslim App',
         theme: ThemeData(
             appBarTheme: AppBarTheme(centerTitle: false),
             fontFamily: GoogleFonts.cairo().fontFamily,

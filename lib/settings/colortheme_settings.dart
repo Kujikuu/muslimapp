@@ -11,7 +11,7 @@ class ColorThemeSettings extends StatefulWidget {
 }
 
 class _ColorThemeSettingsState extends State<ColorThemeSettings> {
-  List colorsThemes = [
+  List<Color> colorsThemes = [
     Colors.blue,
     Colors.amber,
     Colors.green,
@@ -60,7 +60,7 @@ class _ColorThemeSettingsState extends State<ColorThemeSettings> {
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
                   prefs.setInt("themecolor", index);
-                  prefs.setString("themename", colorsThemes[index]);
+                  prefs.setInt("themename", colorsThemes[index].value);
                 },
                 child: CircleAvatar(
                   radius: 10,

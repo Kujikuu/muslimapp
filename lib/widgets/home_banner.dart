@@ -267,9 +267,11 @@ class _HomeBannerState extends State<HomeBanner> {
             width: deviceWidth,
             padding: EdgeInsets.all(15),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                gradient: LinearGradient(
-                    colors: [Color(0xff5b6afa), Color(0xff87ecfe)])),
+                borderRadius: BorderRadius.circular(10),
+                gradient: LinearGradient(colors: [
+                  Theme.of(context).primaryColorLight,
+                  Theme.of(context).primaryColorDark
+                ], begin: Alignment.topRight, end: Alignment.bottomLeft)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -310,7 +312,7 @@ class _HomeBannerState extends State<HomeBanner> {
                                 style: TextStyle(color: Colors.white))
                           ]),
                     ),
-                    SizedBox(height: 5),
+                    // SizedBox(height: 5),
                     Text(AppLocalizations.of(context).nextprayer,
                         style: TextStyle(color: Colors.white, fontSize: 15)),
                     Text(DateFormat.jm().format(_prayernxt),

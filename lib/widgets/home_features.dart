@@ -48,7 +48,7 @@ Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
       // height: deviceHeight * 0.25,
       decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
-          borderRadius: BorderRadius.circular(20)),
+          borderRadius: BorderRadius.circular(10)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
