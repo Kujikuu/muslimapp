@@ -16,11 +16,19 @@ class SettingsOnePage extends StatefulWidget {
 
 class _SettingsOnePageState extends State<SettingsOnePage> {
   bool _dark;
-
+  bool _isMuted = false;
   @override
   void initState() {
     super.initState();
+    loadPrefs();
     _dark = false;
+  }
+
+  void loadPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isMuted = prefs.getBool("mute") ?? false;
+    });
   }
 
   Brightness _getBrightness() {
@@ -88,9 +96,17 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                   child: Column(
                     children: <Widget>[
                       SwitchListTile(
-                        value: true,
                         title: Text(AppLocalizations.of(context).notifications),
-                        onChanged: (value) {},
+                        value: _isMuted,
+                        selected: _isMuted,
+                        onChanged: (value) async {
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          prefs.setBool("mute", value);
+                          setState(() {
+                            _isMuted = value;
+                          });
+                        },
                         secondary: Icon(
                           Icons.notifications,
                         ),

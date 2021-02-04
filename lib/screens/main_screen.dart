@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mulsim_app/screens/home_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mulsim_app/screens/prayer_screen.dart';
 import 'package:mulsim_app/settings/settings_screen.dart';
 import 'package:mulsim_app/widgets/qebla_screen.dart';
 
@@ -12,7 +13,7 @@ class Main_Screen extends StatefulWidget {
 
 class _Main_ScreenState extends State<Main_Screen> {
   int _currentIndex = 0;
-  List<Widget> _pages = [HomeScreen(), HomeScreen(), QeblaScreen()];
+  List<Widget> _pages = [HomeScreen(), PrayerScreen(), QeblaScreen()];
   Widget _currentPage;
 
   void changeTab(int index) {
@@ -43,15 +44,15 @@ class _Main_ScreenState extends State<Main_Screen> {
                     MaterialPageRoute(builder: (context) => SettingsOnePage()));
               }),
         ],
-        leading: IconButton(
-          icon: Icon(FontAwesomeIcons.bars),
-          onPressed: () {},
-        ),
+        // leading: IconButton(
+        //   icon: Icon(FontAwesomeIcons.bars),
+        //   onPressed: () {},
+        // ),
       ),
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         // fixedColor: Theme.of(context).primaryColor,
-        // // showUnselectedLabels: false,
+        showUnselectedLabels: false,
         // unselectedItemColor: Theme.of(context).accentColor,
         onTap: (index) => changeTab(index),
         currentIndex: _currentIndex,

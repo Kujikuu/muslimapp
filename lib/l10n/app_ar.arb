@@ -35,7 +35,7 @@
   "@mute": {
   "description": ""
 },
-"hoursleft" : "ساعات متبقية قبل",
+"hoursleft" : " متبقي قبل",
   "@hoursleft": {
   "description": ""
 },

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
+import 'package:hijri/hijri_calendar.dart';
+import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:mulsim_app/main.dart';
 import 'package:mulsim_app/screens/featured_screen.dart';
@@ -17,9 +19,9 @@ class _HomeScreenState extends State<HomeScreen> {
   var addressName;
   final location = new Location();
   var coordinates;
+
   @override
   void initState() {
-    super.initState();
     getLocationData().then((locationData) {
       if (!mounted) {
         return;
@@ -28,8 +30,13 @@ class _HomeScreenState extends State<HomeScreen> {
         loadLocationName(locationData.latitude, locationData.longitude);
       }
     });
+    setState(() {
+      _loading = false;
+    });
+    super.initState();
   }
 
+  bool _loading = true;
   Future<LocationData> getLocationData() async {
     var _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
@@ -55,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var first = addresses.first;
-    setAdreesName(first.subAdminArea);
+    await setAdreesName(first.locality);
   }
 
   @override
@@ -74,19 +81,30 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    AppLocalizations.of(context).appName,
-                    style: titleTxt,
-                  ),
-                  Row(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(Icons.location_pin),
                       Text(
-                        addressName,
+                        DateFormat('EEEE, d MMMM').format(DateTime.now()),
+                        style: TextStyle(fontSize: 12),
+                      ),
+                      Text(
+                        HijriCalendar.now().toFormat('dd, MMM yyyy'),
                         style: TextStyle(fontSize: 12),
                       ),
                     ],
-                  )
+                  ),
+                  !_loading
+                      ? Row(
+                          children: [
+                            Icon(Icons.location_pin),
+                            Text(
+                              addressName,
+                              style: TextStyle(fontSize: 12),
+                            ),
+                          ],
+                        )
+                      : Center(child: CircularProgressIndicator())
                 ],
               ),
               SizedBox(height: 10),
@@ -114,7 +132,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void setAdreesName(String value) {
+  Future<void> setAdreesName(String value) async {
+    setState(() {
+      _loading = false;
+    });
     setState(() {
       addressName = value;
     });
