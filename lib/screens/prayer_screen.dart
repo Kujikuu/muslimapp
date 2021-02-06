@@ -161,6 +161,53 @@ class _PrayerScreenState extends State<PrayerScreen> {
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
+    if (!_loading)
+      switch (prayerTimes.nextPrayer()) {
+        case Prayer.dhuhr:
+          _nxtPrayerName = AppLocalizations.of(context).duhur;
+          _nxtPrayerImg = 'assets/prayers/Dhuhr.png';
+          _prayernxt = prayerTimes.dhuhr;
+          break;
+        case Prayer.asr:
+          _nxtPrayerName = AppLocalizations.of(context).asr;
+          _nxtPrayerImg = 'assets/prayers/Asr.png';
+          _prayernxt = prayerTimes.asr;
+          break;
+        case Prayer.fajr:
+          _nxtPrayerName = AppLocalizations.of(context).fajr;
+          _nxtPrayerImg = 'assets/prayers/Fajr.png';
+          _prayernxt = prayerTimes.fajr;
+          break;
+        case Prayer.maghrib:
+          _nxtPrayerName = AppLocalizations.of(context).maghrib;
+          _nxtPrayerImg = 'assets/prayers/Maghrib.png';
+          _prayernxt = prayerTimes.maghrib;
+          break;
+        case Prayer.isha:
+          _nxtPrayerName = AppLocalizations.of(context).isha;
+          _nxtPrayerImg = 'assets/prayers/Isha.png';
+          _prayernxt = prayerTimes.isha;
+          break;
+        default:
+          _nxtPrayerName = AppLocalizations.of(context).fajr;
+          _nxtPrayerImg = 'assets/prayers/Fajr.png';
+          _prayernxt = prayerTimes.fajr;
+          break;
+      }
+    return !_loading ? NewWidget(prayerTimes: prayerTimes) : Center(child: CircularProgressIndicator());
+  }
+}
+
+class NewWidget extends StatelessWidget {
+  const NewWidget({
+    Key key,
+    @required this.prayerTimes,
+  }) : super(key: key);
+
+  final PrayerTimes prayerTimes;
+
+  @override
+  Widget build(BuildContext context) {
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -225,11 +272,6 @@ class _PrayerScreenState extends State<PrayerScreen> {
                     ListTile(
                       title: Text(AppLocalizations.of(context).isha),
                       trailing: Text(DateFormat.jm().format(prayerTimes.isha)),
-                    ),
-                    Divider(),
-                    ListTile(
-                      title: Text(AppLocalizations.of(context).fajr),
-                      trailing: Text(DateFormat.jm().format(prayerTimes.fajr)),
                     ),
                   ],
                 ),

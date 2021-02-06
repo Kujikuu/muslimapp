@@ -1,3 +1,4 @@
+// import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:hijri/hijri_calendar.dart';
@@ -5,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:mulsim_app/main.dart';
 import 'package:mulsim_app/screens/featured_screen.dart';
+import 'package:mulsim_app/ulit/adsmanager.dart';
 import 'package:mulsim_app/ulit/constants.dart';
 import 'package:mulsim_app/widgets/home_banner.dart';
 import 'package:mulsim_app/widgets/home_features.dart';
@@ -19,9 +21,34 @@ class _HomeScreenState extends State<HomeScreen> {
   var addressName;
   final location = new Location();
   var coordinates;
+  // BannerAd _bannerAd;
+  // void _loadBannerAd() {
+  //   _bannerAd
+  //     ..load()
+  //     ..show(anchorType: AnchorType.top);
+  // }
+
+  // Future<void> _initAdMob() {
+  //   // TODO: Initialize AdMob SDK
+  //   return FirebaseAdMob.instance.initialize(appId: AdManager.appId);
+  // }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    // _bannerAd?.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
+    // _bannerAd = BannerAd(
+    //   adUnitId: AdManager.bannerAdUnitId,
+    //   size: AdSize.banner,
+    // );
+
+    // TODO: Load a Banner Ad
+    // _loadBannerAd();
     getLocationData().then((locationData) {
       if (!mounted) {
         return;
@@ -30,9 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
         loadLocationName(locationData.latitude, locationData.longitude);
       }
     });
-    setState(() {
-      _loading = false;
-    });
+
     super.initState();
   }
 
@@ -63,6 +88,9 @@ class _HomeScreenState extends State<HomeScreen> {
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var first = addresses.first;
     await setAdreesName(first.locality);
+    setState(() {
+      _loading = false;
+    });
   }
 
   @override
@@ -71,31 +99,31 @@ class _HomeScreenState extends State<HomeScreen> {
     final deviceWidth = MediaQuery.of(context).size.width;
 
     // var currntPrayer = PrayerTimes(coordinates, dateComponents, calculationParameters)
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        DateFormat('EEEE, d MMMM').format(DateTime.now()),
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      Text(
-                        HijriCalendar.now().toFormat('dd, MMM yyyy'),
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ],
-                  ),
-                  !_loading
-                      ? Row(
+    return !_loading
+        ? Scaffold(
+            body: SafeArea(
+              child: Container(
+                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              DateFormat('EEEE, d MMMM').format(DateTime.now()),
+                              style: TextStyle(fontSize: 12),
+                            ),
+                            Text(
+                              HijriCalendar.now().toFormat('dd, MMM yyyy'),
+                              style: TextStyle(fontSize: 12),
+                            ),
+                          ],
+                        ),
+                        Row(
                           children: [
                             Icon(Icons.location_pin),
                             Text(
@@ -104,32 +132,35 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         )
-                      : Center(child: CircularProgressIndicator())
-                ],
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    HomeBanner(),
+                    SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(AppLocalizations.of(context).featured,
+                            style: featTxt),
+                        GestureDetector(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => FeaturedScreen())),
+                            child: Text(AppLocalizations.of(context).viewall,
+                                style: viewAllTxt)),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Expanded(child: BuildFeatures(deviceWidth, deviceHeight))
+                  ],
+                ),
               ),
-              SizedBox(height: 10),
-              HomeBanner(),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(AppLocalizations.of(context).featured, style: featTxt),
-                  GestureDetector(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => FeaturedScreen())),
-                      child: Text(AppLocalizations.of(context).viewall,
-                          style: viewAllTxt)),
-                ],
-              ),
-              SizedBox(height: 10),
-              Expanded(child: BuildFeatures(deviceWidth, deviceHeight))
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          )
+        : Center(
+            child: CircularProgressIndicator(),
+          );
   }
 
   Future<void> setAdreesName(String value) async {

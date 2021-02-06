@@ -1,14 +1,12 @@
 import 'dart:async';
 
 import 'package:adhan/adhan.dart';
-import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:mulsim_app/ulit/LocalNotifyManager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:threading/threading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -101,16 +99,17 @@ class _HomeBannerState extends State<HomeBanner> {
   DateTime _dateTime;
   @override
   initState() {
-    var cron = new Cron();
-    cron.schedule(new Schedule.parse('*/1 * * * *'), () async {
-      schedules();
-    });
+    // var cron = new Cron();
+    // cron.schedule(new Schedule.parse('*/1 * * * *'), () async {
+    //   schedules();
+    // });
     super.initState();
     loadPrefs();
     localNotifyManager.setOnNotificationReceive(onNotificationReceive);
     localNotifyManager.setOnNotificationClick(onNotificationClick);
     this._dateTime = DateTime.now();
     _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
+      schedules();
       setState(() {
         _prayernxt = _prayernxt;
         _isMuted = _isMuted;
@@ -193,27 +192,29 @@ class _HomeBannerState extends State<HomeBanner> {
   var _nxtPrayerImg;
   var _prayernxt;
   void schedules() {
-    if (DateTime.now().add(Duration(seconds: 5)) == prayerTimes.dhuhr)
+    // print('schedules');
+    if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.dhuhr)
       localNotifyManager.showFullScreenNotification(
           AppLocalizations.of(context).duhur,
           "${AppLocalizations.of(context).duhur} ${prayerTimes.dhuhr}",
           prayerTimes.dhuhr);
-    else if (DateTime.now().add(Duration(seconds: 5)) == prayerTimes.asr)
+    else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.asr)
       localNotifyManager.showFullScreenNotification(
           AppLocalizations.of(context).asr,
           "${AppLocalizations.of(context).asr} ${prayerTimes.asr}",
           prayerTimes.asr);
-    else if (DateTime.now().add(Duration(seconds: 5)) == prayerTimes.maghrib)
+    else if (DateTime.now().subtract(Duration(seconds: 3)) ==
+        prayerTimes.maghrib)
       localNotifyManager.showFullScreenNotification(
           AppLocalizations.of(context).maghrib,
           "${AppLocalizations.of(context).maghrib} ${prayerTimes.maghrib}",
           prayerTimes.maghrib);
-    else if (DateTime.now().add(Duration(seconds: 5)) == prayerTimes.isha)
+    else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.isha)
       localNotifyManager.showFullScreenNotification(
           AppLocalizations.of(context).isha,
           "${AppLocalizations.of(context).isha} ${prayerTimes.isha}",
           prayerTimes.isha);
-    else if (DateTime.now().add(Duration(seconds: 5)) == prayerTimes.fajr)
+    else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.fajr)
       localNotifyManager.showFullScreenNotification(
           AppLocalizations.of(context).fajr,
           "${AppLocalizations.of(context).fajr} ${prayerTimes.fajr}",
@@ -265,7 +266,7 @@ class _HomeBannerState extends State<HomeBanner> {
         ? Container(
             height: deviceHeight * .23,
             width: deviceWidth,
-            padding: EdgeInsets.all(15),
+            padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 gradient: LinearGradient(colors: [
@@ -316,12 +317,14 @@ class _HomeBannerState extends State<HomeBanner> {
                     Text(AppLocalizations.of(context).nextprayer,
                         style: TextStyle(color: Colors.white, fontSize: 15)),
                     Text(DateFormat.jm().format(_prayernxt),
-                        style: TextStyle(color: Colors.white, fontSize: 30)),
+                        style: TextStyle(color: Colors.white, fontSize: 28)),
                     // SizedBox(height: 5),
-                    Text(
-                      '${_timeinhours.toString()}:${_timebetween.toString()} ${AppLocalizations.of(context).hoursleft} ' +
-                          _nxtPrayerName,
-                      style: TextStyle(color: Colors.white),
+                    Expanded(
+                      child: Text(
+                        '${_timeinhours.toString()}:${_timebetween.toString()} ${AppLocalizations.of(context).hoursleft} ' +
+                            _nxtPrayerName,
+                        style: TextStyle(color: Colors.white),
+                      ),
                     )
                   ],
                 ),
