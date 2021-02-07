@@ -43,6 +43,8 @@ dependencies:
   launch_review:
   nb_utils:
   cron:
+  firebase_admob: 
+  connectivity:
   flutter_localizations:
     sdk: flutter
 
@@ -58,6 +60,7 @@ flutter:
     - assets/
     - assets/prayers/
     - assets/lang/
+    - assets/icon/
 flutter_native_splash:
   color: "#42a5f5"
   image: assets/icon/icon.png

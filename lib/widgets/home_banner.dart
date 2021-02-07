@@ -99,17 +99,17 @@ class _HomeBannerState extends State<HomeBanner> {
   DateTime _dateTime;
   @override
   initState() {
-    // var cron = new Cron();
-    // cron.schedule(new Schedule.parse('*/1 * * * *'), () async {
-    //   schedules();
-    // });
+    var cron = new Cron();
+    cron.schedule(new Schedule.parse('0 1 * * *'), () async {
+      schedules();
+    });
     super.initState();
     loadPrefs();
     localNotifyManager.setOnNotificationReceive(onNotificationReceive);
     localNotifyManager.setOnNotificationClick(onNotificationClick);
     this._dateTime = DateTime.now();
     _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
-      schedules();
+      // schedules();
       setState(() {
         _prayernxt = _prayernxt;
         _isMuted = _isMuted;
@@ -193,32 +193,32 @@ class _HomeBannerState extends State<HomeBanner> {
   var _prayernxt;
   void schedules() {
     // print('schedules');
-    if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.dhuhr)
-      localNotifyManager.showFullScreenNotification(
-          AppLocalizations.of(context).duhur,
-          "${AppLocalizations.of(context).duhur} ${prayerTimes.dhuhr}",
-          prayerTimes.dhuhr);
-    else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.asr)
-      localNotifyManager.showFullScreenNotification(
-          AppLocalizations.of(context).asr,
-          "${AppLocalizations.of(context).asr} ${prayerTimes.asr}",
-          prayerTimes.asr);
-    else if (DateTime.now().subtract(Duration(seconds: 3)) ==
-        prayerTimes.maghrib)
-      localNotifyManager.showFullScreenNotification(
-          AppLocalizations.of(context).maghrib,
-          "${AppLocalizations.of(context).maghrib} ${prayerTimes.maghrib}",
-          prayerTimes.maghrib);
-    else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.isha)
-      localNotifyManager.showFullScreenNotification(
-          AppLocalizations.of(context).isha,
-          "${AppLocalizations.of(context).isha} ${prayerTimes.isha}",
-          prayerTimes.isha);
-    else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.fajr)
-      localNotifyManager.showFullScreenNotification(
-          AppLocalizations.of(context).fajr,
-          "${AppLocalizations.of(context).fajr} ${prayerTimes.fajr}",
-          prayerTimes.fajr);
+    // if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.dhuhr)
+    localNotifyManager.showFullScreenNotification(
+        AppLocalizations.of(context).duhur,
+        "${AppLocalizations.of(context).duhur} ${prayerTimes.dhuhr}",
+        prayerTimes.dhuhr);
+    // else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.asr)
+    localNotifyManager.showFullScreenNotification(
+        AppLocalizations.of(context).asr,
+        "${AppLocalizations.of(context).asr} ${prayerTimes.asr}",
+        prayerTimes.asr);
+    // else if (DateTime.now().subtract(Duration(seconds: 3)) ==
+    //     prayerTimes.maghrib)
+    localNotifyManager.showFullScreenNotification(
+        AppLocalizations.of(context).maghrib,
+        "${AppLocalizations.of(context).maghrib} ${prayerTimes.maghrib}",
+        prayerTimes.maghrib);
+    // else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.isha)
+    localNotifyManager.showFullScreenNotification(
+        AppLocalizations.of(context).isha,
+        "${AppLocalizations.of(context).isha} ${prayerTimes.isha}",
+        prayerTimes.isha);
+    // else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.fajr)
+    localNotifyManager.showFullScreenNotification(
+        AppLocalizations.of(context).fajr,
+        "${AppLocalizations.of(context).fajr} ${prayerTimes.fajr}",
+        prayerTimes.fajr);
   }
 
   bool _isMuted;

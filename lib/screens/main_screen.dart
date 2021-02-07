@@ -5,6 +5,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mulsim_app/screens/prayer_screen.dart';
 import 'package:mulsim_app/settings/settings_screen.dart';
 import 'package:mulsim_app/widgets/qebla_screen.dart';
+import 'package:mulsim_app/ulit/adsmanager.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 
 class Main_Screen extends StatefulWidget {
   @override
@@ -12,6 +14,10 @@ class Main_Screen extends StatefulWidget {
 }
 
 class _Main_ScreenState extends State<Main_Screen> {
+  Future<void> _initAdMob() {
+    return FirebaseAdMob.instance.initialize(appId: AdManager.appId);
+  }
+
   int _currentIndex = 0;
   List<Widget> _pages = [HomeScreen(), PrayerScreen(), QeblaScreen()];
   Widget _currentPage;
@@ -28,6 +34,7 @@ class _Main_ScreenState extends State<Main_Screen> {
     _currentIndex = 0;
     _currentPage = _pages[0];
     super.initState();
+    _initAdMob();
   }
 
   @override

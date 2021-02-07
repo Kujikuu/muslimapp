@@ -1,13 +1,20 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mulsim_app/account/signinemail.dart';
 import 'package:mulsim_app/main.dart';
+import 'package:mulsim_app/screens/account_screen.dart';
 import 'package:mulsim_app/settings/colortheme_settings.dart';
 import 'package:mulsim_app/settings/lang_settings.dart';
 import 'package:mulsim_app/settings/prayertimes_screen.dart';
 import 'package:mulsim_app/widgets/rateapp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:mulsim_app/ulit/adsmanager.dart';
+import 'package:firebase_admob/firebase_admob.dart';
+
+const String testDevice = 'MobileId';
 
 class SettingsOnePage extends StatefulWidget {
   @override
@@ -15,17 +22,51 @@ class SettingsOnePage extends StatefulWidget {
 }
 
 class _SettingsOnePageState extends State<SettingsOnePage> {
+  static const MobileAdTargetingInfo targetInfo = MobileAdTargetingInfo(
+      // testDevices: testDevice != null ? [testDevice] : null,
+      // nonPersonalizedAds: true,
+      keywords: ['conquer', 'web develop']);
+
+  BannerAd _bannerAd;
+  InterstitialAd _interstitialAd;
+
+  BannerAd createBannerAd() {
+    return BannerAd(
+        adUnitId: BannerAd.testAdUnitId,
+        size: AdSize.fullBanner,
+        targetingInfo: targetInfo);
+  }
+
+  InterstitialAd createInterAd() {
+    return InterstitialAd(
+        adUnitId: InterstitialAd.testAdUnitId, targetingInfo: targetInfo);
+  }
+
   bool _dark;
   bool _isMuted = false;
+
   @override
   void initState() {
+    FirebaseAdMob.instance.initialize(appId: AdManager.appId);
+    _bannerAd = createBannerAd()
+      ..load()
+      ..show();
     super.initState();
     loadPrefs();
     _dark = false;
   }
 
+  @override
+  void dispose() {
+    _bannerAd.dispose();
+    _interstitialAd.dispose();
+    super.dispose();
+  }
+
+  FirebaseUser user;
   void loadPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    user = await FirebaseAuth.instance.currentUser();
     setState(() {
       _isMuted = prefs.getBool("mute") ?? false;
     });
@@ -74,18 +115,33 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                       borderRadius: BorderRadius.circular(10.0)),
                   child: Column(
                     children: <Widget>[
-                      ListTile(
-                        leading: Icon(
-                          FontAwesomeIcons.solidUserCircle,
-                        ),
-                        title: Text(AppLocalizations.of(context).signuporlogin),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Languagesettings()));
-                        },
-                      )
+                      user != null
+                          ? ListTile(
+                              leading: Icon(
+                                FontAwesomeIcons.solidUserCircle,
+                              ),
+                              title: Text(
+                                  AppLocalizations.of(context).signuporlogin),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            SignInWithEmail()));
+                              },
+                            )
+                          : ListTile(
+                              leading: Icon(
+                                FontAwesomeIcons.solidUserCircle,
+                              ),
+                              title: Text('Ahmed AbdAllah'),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AccountScreen()));
+                              },
+                            )
                     ],
                   ),
                 ),
@@ -127,6 +183,9 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                         ),
                         title: Text(AppLocalizations.of(context).prayertimes),
                         onTap: () {
+                          createInterAd()
+                            ..load()
+                            ..show();
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -140,6 +199,9 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                         ),
                         title: Text(AppLocalizations.of(context).langsettings),
                         onTap: () {
+                          createInterAd()
+                            ..load()
+                            ..show();
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -153,6 +215,9 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                         ),
                         title: Text(AppLocalizations.of(context).colortheme),
                         onTap: () {
+                          createInterAd()
+                            ..load()
+                            ..show();
                           Navigator.push(
                               context,
                               MaterialPageRoute(
