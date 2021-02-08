@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1097201731208:android:94299dd12d82c055a6013d",
+        "mobilesdk_app_id": "1:1097201731208:android:446e5db8c8e2004ba6013d",
         "android_client_info": {
-          "package_name": "com.example.mulsim_app"
+          "package_name": "com.kujiku.muslimapp"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "1097201731208-8c6fdb23pf27uvt696r79it3hqq40h9s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kujiku.muslimapp",
+            "certificate_hash": "77cb78209979ec8214a014c76c2af87beb939d54"
+          }
+        },
         {
           "client_id": "1097201731208-b0kcnq4sg6i2v07ghnnq5lr7ru847q92.apps.googleusercontent.com",
           "client_type": 3

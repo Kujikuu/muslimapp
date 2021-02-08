@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mulsim_app/screens/home_screen.dart';
-import 'package:mulsim_app/screens/main_screen.dart';
+import 'package:muslimapp/screens/home_screen.dart';
+import 'package:muslimapp/screens/main_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override

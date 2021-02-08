@@ -1,4 +1,4 @@
-# mulsim_app
+# muslimapp
 
 A new Flutter project.
 

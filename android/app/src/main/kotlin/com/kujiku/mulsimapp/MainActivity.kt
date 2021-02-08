@@ -1,4 +1,4 @@
-package com.example.mulsim_app
+package com.kujiku.muslimapp
 
 import io.flutter.embedding.android.FlutterActivity
 

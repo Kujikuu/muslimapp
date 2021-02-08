@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mulsim_app/screens/home_screen.dart';
+import 'package:muslimapp/screens/home_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mulsim_app/screens/prayer_screen.dart';
-import 'package:mulsim_app/settings/settings_screen.dart';
-import 'package:mulsim_app/widgets/qebla_screen.dart';
-import 'package:mulsim_app/ulit/adsmanager.dart';
+import 'package:muslimapp/screens/prayer_screen.dart';
+import 'package:muslimapp/settings/settings_screen.dart';
+import 'package:muslimapp/widgets/qebla_screen.dart';
+import 'package:muslimapp/ulit/adsmanager.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 
 class Main_Screen extends StatefulWidget {

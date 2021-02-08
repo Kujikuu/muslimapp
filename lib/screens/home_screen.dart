@@ -5,11 +5,11 @@ import 'package:geocoder/geocoder.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
-import 'package:mulsim_app/main.dart';
-import 'package:mulsim_app/screens/featured_screen.dart';
-import 'package:mulsim_app/ulit/constants.dart';
-import 'package:mulsim_app/widgets/home_banner.dart';
-import 'package:mulsim_app/widgets/home_features.dart';
+import 'package:muslimapp/main.dart';
+import 'package:muslimapp/screens/featured_screen.dart';
+import 'package:muslimapp/ulit/constants.dart';
+import 'package:muslimapp/widgets/home_banner.dart';
+import 'package:muslimapp/widgets/home_features.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {

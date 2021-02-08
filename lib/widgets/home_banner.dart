@@ -5,7 +5,7 @@ import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
-import 'package:mulsim_app/ulit/LocalNotifyManager.dart';
+import 'package:muslimapp/ulit/LocalNotifyManager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:nb_utils/nb_utils.dart';

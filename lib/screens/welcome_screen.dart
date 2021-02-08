@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mulsim_app/screens/home_screen.dart';
-import 'package:mulsim_app/screens/login_screen.dart';
-import 'package:mulsim_app/screens/main_screen.dart';
-import 'package:mulsim_app/ulit/constants.dart';
+import 'package:muslimapp/screens/home_screen.dart';
+import 'package:muslimapp/screens/login_screen.dart';
+import 'package:muslimapp/screens/main_screen.dart';
+import 'package:muslimapp/ulit/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WelcomeScreen extends StatefulWidget {

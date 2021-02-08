@@ -10,12 +10,12 @@
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 // import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 // import 'package:http/http.dart' as http;
-// import 'package:mulsim_app/screens/home_screen.dart';
+// import 'package:muslimapp/screens/home_screen.dart';
 // import 'package:path_provider/path_provider.dart';
 // import 'package:rxdart/subjects.dart';
 // import 'package:timezone/data/latest.dart' as tz;
 // import 'package:timezone/timezone.dart' as tz;
-// import 'package:mulsim_app/ulit/constants.dart';
+// import 'package:muslimapp/ulit/constants.dart';
 
 // import 'screens/welcome_screen.dart';
 

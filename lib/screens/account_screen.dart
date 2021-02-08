@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
-import 'package:mulsim_app/account/signinemail.dart';
-import 'package:mulsim_app/account/signinmobile.dart';
+import 'package:muslimapp/account/signinemail.dart';
+import 'package:muslimapp/account/signinmobile.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
-import 'package:mulsim_app/settings/settings_screen.dart';
+import 'package:muslimapp/settings/settings_screen.dart';
 
 class AccountScreen extends StatefulWidget {
   @override
