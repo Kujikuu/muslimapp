@@ -63,10 +63,10 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
     super.dispose();
   }
 
-  FirebaseUser user;
+  User user;
   void loadPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    user = await FirebaseAuth.instance.currentUser();
+    user = FirebaseAuth.instance.currentUser;
     setState(() {
       _isMuted = prefs.getBool("mute") ?? false;
     });
@@ -126,8 +126,7 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            SignInWithEmail()));
+                                        builder: (context) => AccountScreen()));
                               },
                             )
                           : ListTile(

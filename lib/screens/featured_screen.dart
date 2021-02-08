@@ -27,14 +27,14 @@ class _FeaturedScreenState extends State<FeaturedScreen> {
 
 Widget _buildBody(BuildContext context) {
   return StreamBuilder<QuerySnapshot>(
-    stream: Firestore.instance
+    stream: FirebaseFirestore.instance
         .collection('features')
         .orderBy('date', descending: true)
         .snapshots(),
     builder: (context, snapshot) {
       if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
 
-      return _buildList(context, snapshot.data.documents);
+      return _buildList(context, snapshot.data.docs);
     },
   );
 }
@@ -130,7 +130,7 @@ class Record {
         of = map['of'];
 
   Record.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data, reference: snapshot.reference);
+      : this.fromMap(snapshot.data(), reference: snapshot.reference);
 
   @override
   String toString() => "Record<$name:$content>";

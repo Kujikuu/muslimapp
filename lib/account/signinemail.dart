@@ -139,7 +139,7 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
                   color: Theme.of(context).primaryColor,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
-                  onPressed: _onRegisterClick,
+                  onPressed: _onSignIn,
                   child: Text(
                     "Log In",
                     style: TextStyle(color: Colors.white),
@@ -151,6 +151,39 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
         ),
       ),
     );
+  }
+
+  void _onSignIn() async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: _mail.text, password: "SuperSecretPassword!");
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'wrong-password' ||
+          e.code == 'email-already-in-use' ||
+          e.code == 'user-not-found') {
+        try {
+          UserCredential userCredential = await FirebaseAuth.instance
+              .createUserWithEmailAndPassword(
+                  email: _mail.text, password: _pass.text);
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'weak-password') {
+            final snackBar =
+                SnackBar(content: Text('The password provided is too weak.'));
+            Scaffold.of(context).showSnackBar(snackBar);
+          } else {
+            final snackBar = SnackBar(content: Text(e.message));
+            Scaffold.of(context).showSnackBar(snackBar);
+          }
+        } catch (e) {
+          print(e);
+        }
+      }
+    } catch (e) {
+      print(e);
+      final snackBar = SnackBar(content: Text(e.toString()));
+      Scaffold.of(context).showSnackBar(snackBar);
+    }
   }
 
   void _onRegisterClick() async {

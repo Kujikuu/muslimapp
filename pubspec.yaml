@@ -11,39 +11,43 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.0
-  adhan: ^1.1.14
-  flutter_qiblah: ^1.0.3+2
+  firebase_core: 
+  # Newly reworked plugins covered by this migration guide:
+  firebase_auth: 
+  cloud_firestore: 
+  firebase_messaging: 
+  # Updated to work with new core only plugins (no new changes):
+  firebase_admob: 
+  firebase_analytics: 
+  firebase_in_app_messaging: 
+  adhan: 
+  flutter_qiblah: 
   flutter_svg:
   geolocator:
-  flutter_local_notifications: ^3.0.3
-  location: ^3.2.4
+  flutter_local_notifications: 
+  location: 
   intl: 
-  hijri: ^2.0.3
-  geocoder: ^0.2.1
-  timezone: ^0.5.6
-  flutter_native_timezone: ^1.0.4
-  cached_network_image: ^2.0.0
+  hijri: 
+  geocoder: 
+  timezone: 
+  flutter_native_timezone: 
+  cached_network_image: 
   threading:
   http:
   rxdart:
   device_info:
-  flutter_native_splash: ^0.2.9
-  flutter_launcher_icons: ^0.8.1
+  flutter_native_splash: 
+  flutter_launcher_icons: 
   google_maps_flutter:
   shared_preferences:
   google_fonts:
-  firebase_core: ^0.4.0+9
-  firebase_analytics: ^5.0.2
-  firebase_auth: ^0.14.0+5
-  cloud_firestore: ^0.12.9+5
-  firebase_messaging: 
   android_alarm_manager:
   font_awesome_flutter:
   url_launcher:
   launch_review:
-  nb_utils:
+  nb_utils: ^3.3.0+8
   cron:
-  firebase_admob: 
+  google_sign_in: "^4.5.1"
   connectivity:
   flutter_localizations:
     sdk: flutter

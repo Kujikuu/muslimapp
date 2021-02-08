@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:muslimapp/settings/lang_settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:muslimapp/settings/madhab_settings.dart';
 
 class PrayerTimesSettings extends StatefulWidget {
   @override
@@ -24,6 +23,7 @@ class _PrayerTimesSettingsState extends State<PrayerTimesSettings> {
     setState(() {
       _madhab = prefs.getString("madhab") ?? 'egyptian';
       _method = prefs.getString("methos") ?? 'shafi';
+      _autoSelected = prefs.getBool("autosettings") ?? true;
     });
   }
 
@@ -115,10 +115,13 @@ class _PrayerTimesSettingsState extends State<PrayerTimesSettings> {
                   subtitle: _autoSelected ? Text(translatedMadhab) : null,
                   value: _autoSelected,
                   selected: _autoSelected,
-                  onChanged: (value) {
+                  onChanged: (value) async {
                     setState(() {
                       _autoSelected = value;
                     });
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.setBool("autosettings", value);
                   },
                 ),
                 if (!_autoSelected)
@@ -145,7 +148,12 @@ class _PrayerTimesSettingsState extends State<PrayerTimesSettings> {
                             Text(madhabsubtitle, style: TextStyle(fontSize: 12))
                           ],
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MadhabSettings()));
+                        },
                       ),
                     ],
                   )

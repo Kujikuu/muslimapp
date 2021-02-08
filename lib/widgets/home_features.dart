@@ -17,7 +17,7 @@ class BuildFeatures extends StatelessWidget {
 
 Widget _buildBody(BuildContext context) {
   return StreamBuilder<QuerySnapshot>(
-    stream: Firestore.instance
+    stream: FirebaseFirestore.instance
         .collection('features')
         .orderBy('date', descending: true)
         .limit(3)
@@ -25,7 +25,7 @@ Widget _buildBody(BuildContext context) {
     builder: (context, snapshot) {
       if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
 
-      return _buildList(context, snapshot.data.documents);
+      return _buildList(context, snapshot.data.docs);
     },
   );
 }
@@ -121,75 +121,8 @@ class Record {
         of = map['of'];
 
   Record.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data, reference: snapshot.reference);
+      : this.fromMap(snapshot.data(), reference: snapshot.reference);
 
   @override
   String toString() => "Record<$name:$content>";
 }
-/*
-Padding(
-      padding: const EdgeInsets.only(bottom: 15),
-      child: Container(
-        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-        width: deviceWidth,
-        height: deviceHeight * 0.25,
-        decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            borderRadius: BorderRadius.circular(20)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: deviceWidth * 0.35,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CachedNetworkImage(
-                    height: 30,
-                    imageUrl:
-                        'https://images-na.ssl-images-amazon.com/images/I/41APHvabE0L.png',
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Verse of the day',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      Text(
-                        'Al-Jumu`a',
-                        style: TextStyle(color: Colors.white70),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 5),
-            Text(
-                'But never will they express their desire ( for Death), beacause of th (deeds) their hands have sent on before them! and Allah knows well those that do wrong!',
-                style: TextStyle(color: Colors.white)),
-            // SizedBox(height: 5),
-            Divider(color: Colors.white),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                FlatButton.icon(
-                    minWidth: deviceWidth / 2.6,
-                    onPressed: () async {},
-                    textColor: Colors.white,
-                    icon: Icon(Icons.read_more),
-                    label: Text('Read')),
-                FlatButton.icon(
-                    minWidth: deviceWidth / 2.6,
-                    onPressed: () {},
-                    textColor: Colors.white,
-                    icon: Icon(Icons.share),
-                    label: Text('Share')),
-              ],
-            )
-          ],
-        ),
-      ),
-    )
-*/

@@ -59,7 +59,7 @@ class _Main_ScreenState extends State<Main_Screen> {
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         // fixedColor: Theme.of(context).primaryColor,
-        showUnselectedLabels: false,
+        // showUnselectedLabels: false,
         // unselectedItemColor: Theme.of(context).accentColor,
         onTap: (index) => changeTab(index),
         currentIndex: _currentIndex,
