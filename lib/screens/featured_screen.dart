@@ -99,16 +99,13 @@ Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
 }
 
 class Record {
-  final String name;
   final String content;
   final String of;
   final DocumentReference reference;
 
   Record.fromMap(Map<String, dynamic> map, {this.reference})
-      : assert(map['name'] != null),
-        assert(map['content'] != null),
+      : assert(map['content'] != null),
         assert(map['of'] != null),
-        name = map['name'],
         content = map['content'],
         of = map['of'];
 
@@ -116,5 +113,5 @@ class Record {
       : this.fromMap(snapshot.data(), reference: snapshot.reference);
 
   @override
-  String toString() => "Record<$name:$content>";
+  String toString() => "Record<$content>";
 }

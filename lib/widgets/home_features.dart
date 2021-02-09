@@ -54,7 +54,7 @@ Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
             children: [
               CachedNetworkImage(
                 height: 30,
-                imageUrl: record.of == "Verse of day"
+                imageUrl: record.of.contains("Verse")
                     ? 'https://images-na.ssl-images-amazon.com/images/I/41APHvabE0L.png'
                     : 'https://alandroidnet.com/app-img/app_image_big_7480.jpg',
                 fit: BoxFit.cover,
@@ -87,16 +87,13 @@ Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
 }
 
 class Record {
-  final String name;
   final String content;
   final String of;
   final DocumentReference reference;
 
   Record.fromMap(Map<String, dynamic> map, {this.reference})
-      : assert(map['name'] != null),
-        assert(map['content'] != null),
+      : assert(map['content'] != null),
         assert(map['of'] != null),
-        name = map['name'],
         content = map['content'],
         of = map['of'];
 
@@ -104,5 +101,5 @@ class Record {
       : this.fromMap(snapshot.data(), reference: snapshot.reference);
 
   @override
-  String toString() => "Record<$name:$content>";
+  String toString() => "Record<$content>";
 }

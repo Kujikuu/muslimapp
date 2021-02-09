@@ -10,22 +10,11 @@ import 'package:workmanager/workmanager.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  Workmanager.initialize(
-      callbackDispatcher, // The top level function, aka callbackDispatcher
-      isInDebugMode:
-          false // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
-      );
-  Workmanager.registerOneOffTask("1", "simpleTask"); //Android only (see below)
+  
   runApp(MyApp());
 }
 
-void callbackDispatcher() {
-  Workmanager.executeTask((task, inputData) {
-    print(
-        "Native called background task: $task"); //simpleTask will be emitted here.
-    return Future.value(true);
-  });
-}
+
 
 class MyApp extends StatefulWidget {
   static void setLocale(BuildContext context, Locale newLocale) async {
