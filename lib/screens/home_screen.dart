@@ -1,5 +1,6 @@
 // import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_admob/firebase_admob.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:hijri/hijri_calendar.dart';
@@ -105,7 +106,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Row(
                           children: [
-                            Icon(Icons.location_pin),
+                            Icon(CupertinoIcons.location_fill, size: 12),
+                            SizedBox(width: 4),
                             Text(
                               addressName,
                               style: TextStyle(fontSize: 12),

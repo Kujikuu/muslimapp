@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -14,36 +17,27 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:muslimapp/ulit/adsmanager.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 
-const String testDevice = 'MobileId';
-
 class SettingsOnePage extends StatefulWidget {
   @override
   _SettingsOnePageState createState() => _SettingsOnePageState();
 }
 
 class _SettingsOnePageState extends State<SettingsOnePage> {
-  static const MobileAdTargetingInfo targetInfo = MobileAdTargetingInfo(
-      // testDevices: testDevice != null ? [testDevice] : null,
-      // nonPersonalizedAds: true,
-      keywords: ['conquer', 'web develop']);
-
   BannerAd _bannerAd;
   InterstitialAd _interstitialAd;
 
   BannerAd createBannerAd() {
     return BannerAd(
-        adUnitId: BannerAd.testAdUnitId,
-        size: AdSize.fullBanner,
-        targetingInfo: targetInfo);
+        adUnitId: AdManager.bannerAdUnitId, size: AdSize.fullBanner);
   }
 
   InterstitialAd createInterAd() {
-    return InterstitialAd(
-        adUnitId: InterstitialAd.testAdUnitId, targetingInfo: targetInfo);
+    return InterstitialAd(adUnitId: AdManager.interstitialAdUnitId);
   }
 
   bool _dark;
   bool _isMuted = false;
+  var isAds = 0;
 
   @override
   void initState() {
@@ -54,6 +48,10 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
     super.initState();
     loadPrefs();
     _dark = false;
+    var rgn = Random();
+    setState(() {
+      isAds = rgn.nextInt(3);
+    });
   }
 
   @override
@@ -86,7 +84,9 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(FontAwesomeIcons.moon),
+            icon: _dark
+                ? Icon(CupertinoIcons.moon_fill)
+                : Icon(CupertinoIcons.moon),
             onPressed: () async {
               var darken = Theme.of(context).brightness;
               if (darken == Brightness.dark)
@@ -109,41 +109,41 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Card(
-                  elevation: 4.0,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0)),
-                  child: Column(
-                    children: <Widget>[
-                      user != null
-                          ? ListTile(
-                              leading: Icon(
-                                FontAwesomeIcons.solidUserCircle,
-                              ),
-                              title: Text(
-                                  AppLocalizations.of(context).signuporlogin),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => AccountScreen()));
-                              },
-                            )
-                          : ListTile(
-                              leading: Icon(
-                                FontAwesomeIcons.solidUserCircle,
-                              ),
-                              title: Text('Ahmed AbdAllah'),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => AccountScreen()));
-                              },
-                            )
-                    ],
-                  ),
-                ),
+                // Card(
+                //   elevation: 4.0,
+                //   shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(10.0)),
+                //   child: Column(
+                //     children: <Widget>[
+                //       user != null
+                //           ? ListTile(
+                //               leading: Icon(
+                //                 CupertinoIcons.person_alt,
+                //               ),
+                //               title: Text(
+                //                   AppLocalizations.of(context).signuporlogin),
+                //               onTap: () {
+                //                 Navigator.push(
+                //                     context,
+                //                     MaterialPageRoute(
+                //                         builder: (context) => AccountScreen()));
+                //               },
+                //             )
+                //           : ListTile(
+                //               leading: Icon(
+                //                 CupertinoIcons.person_alt,
+                //               ),
+                //               title: Text('Ahmed AbdAllah'),
+                //               onTap: () {
+                //                 Navigator.push(
+                //                     context,
+                //                     MaterialPageRoute(
+                //                         builder: (context) => AccountScreen()));
+                //               },
+                //             )
+                //     ],
+                //   ),
+                // ),
                 Card(
                   elevation: 4.0,
                   shape: RoundedRectangleBorder(
@@ -163,7 +163,7 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                           });
                         },
                         secondary: Icon(
-                          Icons.notifications,
+                          CupertinoIcons.bell_fill,
                         ),
                       ),
                     ],
@@ -182,9 +182,10 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                         ),
                         title: Text(AppLocalizations.of(context).prayertimes),
                         onTap: () {
-                          createInterAd()
-                            ..load()
-                            ..show();
+                          if (isAds == 3)
+                            createInterAd()
+                              ..load()
+                              ..show();
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -198,9 +199,10 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                         ),
                         title: Text(AppLocalizations.of(context).langsettings),
                         onTap: () {
-                          createInterAd()
-                            ..load()
-                            ..show();
+                          if (isAds == 3)
+                            createInterAd()
+                              ..load()
+                              ..show();
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -214,9 +216,10 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                         ),
                         title: Text(AppLocalizations.of(context).colortheme),
                         onTap: () {
-                          createInterAd()
-                            ..load()
-                            ..show();
+                          if (isAds == 3)
+                            createInterAd()
+                              ..load()
+                              ..show();
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -235,7 +238,7 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                     children: <Widget>[
                       ListTile(
                         leading: Icon(
-                          FontAwesomeIcons.solidStar,
+                          CupertinoIcons.star_circle_fill,
                         ),
                         title: Text(AppLocalizations.of(context).rateapp),
                         onTap: () {

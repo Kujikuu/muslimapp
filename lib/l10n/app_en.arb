@@ -186,5 +186,13 @@
 "hanafi" : "Hanafi",
   "@hanafi": {
   "description": ""
+},
+"verse" : "Quran Verse",
+  "@verse": {
+  "description": ""
+},
+"aya" : "Hadith",
+  "@aya": {
+  "description": ""
 }
 }

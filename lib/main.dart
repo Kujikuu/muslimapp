@@ -5,11 +5,26 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:muslimapp/screens/welcome_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:workmanager/workmanager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  Workmanager.initialize(
+      callbackDispatcher, // The top level function, aka callbackDispatcher
+      isInDebugMode:
+          true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
+      );
+  Workmanager.registerOneOffTask("1", "simpleTask"); //Android only (see below)
   runApp(MyApp());
+}
+
+void callbackDispatcher() {
+  Workmanager.executeTask((task, inputData) {
+    print(
+        "Native called background task: $task"); //simpleTask will be emitted here.
+    return Future.value(true);
+  });
 }
 
 class MyApp extends StatefulWidget {
@@ -112,7 +127,7 @@ class _MyAppState extends State<MyApp> {
         title: 'Muslim App',
         theme: ThemeData(
             appBarTheme: AppBarTheme(centerTitle: false),
-            fontFamily: GoogleFonts.cairo().fontFamily,
+            fontFamily: GoogleFonts.tajawal().fontFamily,
             platform: TargetPlatform.iOS,
             primarySwatch: _color,
             brightness: _brightness,

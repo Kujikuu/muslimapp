@@ -40,66 +40,46 @@ Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
   // final deviceHeight = MediaQuery.of(context).size.height;
   final deviceWidth = MediaQuery.of(context).size.width;
   final record = Record.fromSnapshot(data);
-  return Padding(
-    padding: const EdgeInsets.only(bottom: 15),
-    child: Container(
-      padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-      width: deviceWidth,
-      // height: deviceHeight * 0.25,
-      decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
-          borderRadius: BorderRadius.circular(10)),
+  return Card(
+    elevation: 3,
+    // margin: EdgeInsets.only(bottom: 15),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+    child: Padding(
+      padding: EdgeInsets.only(top: 15, bottom: 0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            width: deviceWidth * 0.45,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                CachedNetworkImage(
-                  height: 30,
-                  imageUrl:
-                      'https://images-na.ssl-images-amazon.com/images/I/41APHvabE0L.png',
-                ),
-                SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      record.of,
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    Text(
-                      record.name,
-                      style: TextStyle(color: Colors.white70),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 5),
-          Text(record.content, style: TextStyle(color: Colors.white)),
-          // SizedBox(height: 5),
-          Divider(color: Colors.white),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              FlatButton.icon(
-                  minWidth: deviceWidth / 2.6,
-                  onPressed: () async {},
-                  textColor: Colors.white,
-                  icon: Icon(Icons.read_more),
-                  label: Text(AppLocalizations.of(context).read)),
-              FlatButton.icon(
-                  minWidth: deviceWidth / 2.6,
-                  onPressed: () {},
-                  textColor: Colors.white,
-                  icon: Icon(Icons.share),
-                  label: Text(AppLocalizations.of(context).share)),
+              CachedNetworkImage(
+                height: 30,
+                imageUrl: record.of == "Verse of day"
+                    ? 'https://images-na.ssl-images-amazon.com/images/I/41APHvabE0L.png'
+                    : 'https://alandroidnet.com/app-img/app_image_big_7480.jpg',
+                fit: BoxFit.cover,
+              ),
+              SizedBox(width: deviceWidth * .03),
+              Text(
+                record.of.contains("Verse")
+                    ? AppLocalizations.of(context).verse
+                    : AppLocalizations.of(context).aya,
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
             ],
-          )
+          ),
+          Divider(),
+          CachedNetworkImage(
+            imageUrl: record.content,
+            fit: BoxFit.cover,
+            width: deviceWidth,
+          ),
+          Divider(),
+          FlatButton.icon(
+              minWidth: deviceWidth / 2.6,
+              onPressed: () {},
+              icon: Icon(Icons.share),
+              label: Text(AppLocalizations.of(context).share))
         ],
       ),
     ),

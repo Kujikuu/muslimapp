@@ -71,18 +71,24 @@ class LocalNotifyManager {
   }
 
   Future<void> showFullScreenNotification(
-      String title, String body, DateTime date) async {
+      {String title,
+      String body,
+      DateTime date,
+      String sound = 'azan1',
+      bool muted = true}) async {
     var androidChannel = AndroidNotificationDetails(
-        '2', 'FullAthanNotification', 'CHANNEL_DESCRIPTION',
-        sound: RawResourceAndroidNotificationSound('azan2'),
-        importance: Importance.max,
-        playSound: true,
-        priority: Priority.high,
-        timeoutAfter: 20000,
-        enableVibration: true,
-        enableLights: true,
-        fullScreenIntent: true);
-    var iosChannel = IOSNotificationDetails(sound: 'azan2.mp3');
+      '2',
+      'Adhan Noification',
+      '',
+      icon: 'icon',
+      importance: Importance.max,
+      playSound: muted,
+      priority: Priority.high,
+      // enableVibration: true,
+      // fullScreenIntent: true,
+      sound: RawResourceAndroidNotificationSound(sound),
+    );
+    var iosChannel = IOSNotificationDetails(sound: '$sound.mp3');
     var platformChannel =
         NotificationDetails(android: androidChannel, iOS: iosChannel);
     await flutterLocalNotificationsPlugin.schedule(

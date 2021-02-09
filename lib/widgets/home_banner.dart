@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:adhan/adhan.dart';
 import 'package:cron/cron.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:muslimapp/ulit/LocalNotifyManager.dart';
@@ -99,17 +101,17 @@ class _HomeBannerState extends State<HomeBanner> {
   DateTime _dateTime;
   @override
   initState() {
-    var cron = new Cron();
-    cron.schedule(new Schedule.parse('0 1 * * *'), () async {
-      schedules();
-    });
+    // var cron = new Cron();
+    // cron.schedule(new Schedule.parse('0 1 * * *'), () async {
+    //   schedules();
+    // });
     super.initState();
     loadPrefs();
     localNotifyManager.setOnNotificationReceive(onNotificationReceive);
     localNotifyManager.setOnNotificationClick(onNotificationClick);
     this._dateTime = DateTime.now();
     _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
-      // schedules();
+      schedules();
       setState(() {
         _prayernxt = _prayernxt;
         _isMuted = _isMuted;
@@ -193,32 +195,43 @@ class _HomeBannerState extends State<HomeBanner> {
   var _prayernxt;
   void schedules() {
     // print('schedules');
-    // if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.dhuhr)
-    localNotifyManager.showFullScreenNotification(
-        AppLocalizations.of(context).duhur,
-        "${AppLocalizations.of(context).duhur} ${prayerTimes.dhuhr}",
-        prayerTimes.dhuhr);
-    // else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.asr)
-    localNotifyManager.showFullScreenNotification(
-        AppLocalizations.of(context).asr,
-        "${AppLocalizations.of(context).asr} ${prayerTimes.asr}",
-        prayerTimes.asr);
-    // else if (DateTime.now().subtract(Duration(seconds: 3)) ==
-    //     prayerTimes.maghrib)
-    localNotifyManager.showFullScreenNotification(
-        AppLocalizations.of(context).maghrib,
-        "${AppLocalizations.of(context).maghrib} ${prayerTimes.maghrib}",
-        prayerTimes.maghrib);
-    // else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.isha)
-    localNotifyManager.showFullScreenNotification(
-        AppLocalizations.of(context).isha,
-        "${AppLocalizations.of(context).isha} ${prayerTimes.isha}",
-        prayerTimes.isha);
-    // else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.fajr)
-    localNotifyManager.showFullScreenNotification(
-        AppLocalizations.of(context).fajr,
-        "${AppLocalizations.of(context).fajr} ${prayerTimes.fajr}",
-        prayerTimes.fajr);
+    if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.dhuhr)
+      localNotifyManager.showFullScreenNotification(
+          title: AppLocalizations.of(context).duhur,
+          body: "${AppLocalizations.of(context).duhur} ${prayerTimes.dhuhr}",
+          date: prayerTimes.dhuhr,
+          sound: 'azan2',
+          muted: _isMuted);
+    else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.asr)
+      localNotifyManager.showFullScreenNotification(
+          title: AppLocalizations.of(context).asr,
+          body: "${AppLocalizations.of(context).asr} ${prayerTimes.asr}",
+          date: prayerTimes.asr,
+          sound: 'azan2',
+          muted: _isMuted);
+    else if (DateTime.now().subtract(Duration(seconds: 3)) ==
+        prayerTimes.maghrib)
+      localNotifyManager.showFullScreenNotification(
+          title: AppLocalizations.of(context).maghrib,
+          body:
+              "${AppLocalizations.of(context).maghrib} ${prayerTimes.maghrib}",
+          date: prayerTimes.maghrib,
+          sound: 'azan2',
+          muted: _isMuted);
+    else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.isha)
+      localNotifyManager.showFullScreenNotification(
+          title: AppLocalizations.of(context).isha,
+          body: "${AppLocalizations.of(context).isha} ${prayerTimes.isha}",
+          date: prayerTimes.isha,
+          sound: 'azan2',
+          muted: _isMuted);
+    else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.fajr)
+      localNotifyManager.showFullScreenNotification(
+          title: AppLocalizations.of(context).fajr,
+          body: "${AppLocalizations.of(context).fajr} ${prayerTimes.fajr}",
+          date: prayerTimes.fajr,
+          sound: 'azan2',
+          muted: _isMuted);
   }
 
   bool _isMuted;
@@ -299,31 +312,44 @@ class _HomeBannerState extends State<HomeBanner> {
                                     setState(() {
                                       _isMuted = prefs.getBool("mute") ?? false;
                                     });
+                                    localNotifyManager
+                                        .showFullScreenNotification(
+                                            title: "title",
+                                            body: "body",
+                                            date: DateTime.now(),
+                                            sound: 'azan2');
                                   },
                                   child: Icon(
                                       _isMuted
-                                          ? Icons.notifications
-                                          : Icons.notifications_off,
+                                          ? CupertinoIcons.speaker_2_fill
+                                          : CupertinoIcons.speaker_fill,
                                       color: Colors.white),
                                 )),
                             Text(
                                 _isMuted
                                     ? AppLocalizations.of(context).ring
                                     : AppLocalizations.of(context).mute,
-                                style: TextStyle(color: Colors.white))
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18))
                           ]),
                     ),
-                    // SizedBox(height: 5),
+                    SizedBox(height: deviceHeight * .02),
                     Text(AppLocalizations.of(context).nextprayer,
-                        style: TextStyle(color: Colors.white, fontSize: 15)),
+                        style: TextStyle(color: Colors.white, fontSize: 20)),
                     Text(DateFormat.jm().format(_prayernxt),
-                        style: TextStyle(color: Colors.white, fontSize: 28)),
-                    // SizedBox(height: 5),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold)),
+                    SizedBox(height: deviceHeight * .02),
                     Expanded(
                       child: Text(
                         '${_timeinhours.toString()}:${_timebetween.toString()} ${AppLocalizations.of(context).hoursleft} ' +
                             _nxtPrayerName,
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
                       ),
                     )
                   ],

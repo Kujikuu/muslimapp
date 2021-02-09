@@ -186,5 +186,13 @@
 "hanafi" : "حنفي",
   "@hanafi": {
   "description": ""
+},
+"verse" : "آيه قرآنية",
+  "@verse": {
+  "description": ""
+},
+"aya" : "حديث شريف",
+  "@aya": {
+  "description": ""
 }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:muslimapp/screens/home_screen.dart';
@@ -45,7 +46,7 @@ class _Main_ScreenState extends State<Main_Screen> {
         centerTitle: false,
         actions: [
           IconButton(
-              icon: Icon(FontAwesomeIcons.cog),
+              icon: Icon(Icons.settings),
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => SettingsOnePage()));
@@ -65,13 +66,13 @@ class _Main_ScreenState extends State<Main_Screen> {
         currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: Icon(CupertinoIcons.today),
               label: AppLocalizations.of(context).today),
           BottomNavigationBarItem(
-              icon: Icon(Icons.timelapse),
+              icon: Icon(CupertinoIcons.timer),
               label: AppLocalizations.of(context).prayers),
           BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.solidCompass),
+              icon: Icon(CupertinoIcons.compass),
               label: AppLocalizations.of(context).qebla),
         ],
       ),
