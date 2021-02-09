@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:muslimapp/settings/method_settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:muslimapp/settings/madhab_settings.dart';
 
@@ -21,8 +22,8 @@ class _PrayerTimesSettingsState extends State<PrayerTimesSettings> {
   loadSettings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _madhab = prefs.getString("madhab") ?? 'egyptian';
-      _method = prefs.getString("methos") ?? 'shafi';
+      _madhab = prefs.getString("method") ?? 'egyptian';
+      _method = prefs.getString("madhab") ?? 'shafi';
       _autoSelected = prefs.getBool("autosettings") ?? true;
     });
   }
@@ -131,15 +132,20 @@ class _PrayerTimesSettingsState extends State<PrayerTimesSettings> {
                       Divider(),
                       ListTile(
                         title:
-                            Text(AppLocalizations.of(context).methodsettings),
+                            Text(AppLocalizations.of(context).madhabsettings),
                         subtitle: Text(translatedMethod),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MethodSettings()));
+                        },
                       ),
                       Divider(),
                       ListTile(
                         isThreeLine: true,
                         title:
-                            Text(AppLocalizations.of(context).madhabsettings),
+                            Text(AppLocalizations.of(context).methodsettings),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

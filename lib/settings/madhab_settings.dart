@@ -20,14 +20,14 @@ class _MadhabSettingsState extends State<MadhabSettings> {
 
   loadsettings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _madhab = prefs.getString("madhab");
+    _madhab = prefs.getString("method");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).madhabsettings),
+        title: Text(AppLocalizations.of(context).methodsettings),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(bottom: 60),
@@ -46,7 +46,7 @@ class _MadhabSettingsState extends State<MadhabSettings> {
                 onTap: () async {
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
-                  prefs.setString("madhab", "egyptian");
+                  prefs.setString("method", "egyptian");
                   setState(() {
                     _madhab = 'egyptian';
                   });
@@ -67,7 +67,7 @@ class _MadhabSettingsState extends State<MadhabSettings> {
                 onTap: () async {
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
-                  prefs.setString("madhab", "muslim_world_league");
+                  prefs.setString("method", "muslim_world_league");
                   setState(() {
                     _madhab = 'muslim_world_league';
                   });
@@ -88,7 +88,7 @@ class _MadhabSettingsState extends State<MadhabSettings> {
                 onTap: () async {
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
-                  prefs.setString("madhab", "karachi");
+                  prefs.setString("method", "karachi");
                   setState(() {
                     _madhab = 'karachi';
                   });
@@ -109,7 +109,7 @@ class _MadhabSettingsState extends State<MadhabSettings> {
                 onTap: () async {
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
-                  prefs.setString("madhab", "umm_al_qura");
+                  prefs.setString("method", "umm_al_qura");
                   setState(() {
                     _madhab = 'umm_al_qura';
                   });
@@ -130,7 +130,7 @@ class _MadhabSettingsState extends State<MadhabSettings> {
                 onTap: () async {
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
-                  prefs.setString("madhab", "dubai");
+                  prefs.setString("method", "dubai");
                   setState(() {
                     _madhab = 'dubai';
                   });
@@ -151,7 +151,7 @@ class _MadhabSettingsState extends State<MadhabSettings> {
                 onTap: () async {
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
-                  prefs.setString("madhab", "qatar");
+                  prefs.setString("method", "qatar");
                   setState(() {
                     _madhab = 'qatar';
                   });
@@ -172,7 +172,7 @@ class _MadhabSettingsState extends State<MadhabSettings> {
                 onTap: () async {
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
-                  prefs.setString("madhab", "kuwait");
+                  prefs.setString("method", "kuwait");
                   setState(() {
                     _madhab = 'kuwait';
                   });
@@ -193,7 +193,7 @@ class _MadhabSettingsState extends State<MadhabSettings> {
                 onTap: () async {
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
-                  prefs.setString("madhab", "singapore");
+                  prefs.setString("method", "singapore");
                   setState(() {
                     _madhab = 'singapore';
                   });
@@ -214,7 +214,7 @@ class _MadhabSettingsState extends State<MadhabSettings> {
                 onTap: () async {
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
-                  prefs.setString("madhab", "north_america");
+                  prefs.setString("method", "north_america");
                   setState(() {
                     _madhab = 'north_america';
                   });

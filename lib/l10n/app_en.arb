@@ -191,6 +191,10 @@
   "@verse": {
   "description": ""
 },
+"tmr" : "Tomorrow",
+  "@tmr": {
+  "description": ""
+},
 "aya" : "Hadith",
   "@aya": {
   "description": ""

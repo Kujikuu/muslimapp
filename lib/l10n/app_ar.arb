@@ -191,6 +191,10 @@
   "@verse": {
   "description": ""
 },
+"tmr" : "غداً",
+  "@tmr": {
+  "description": ""
+},
 "aya" : "حديث شريف",
   "@aya": {
   "description": ""

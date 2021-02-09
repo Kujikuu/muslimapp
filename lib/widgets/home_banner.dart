@@ -196,42 +196,37 @@ class _HomeBannerState extends State<HomeBanner> {
   void schedules() {
     // print('schedules');
     if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.dhuhr)
-      localNotifyManager.showFullScreenNotification(
+      localNotifyManager.showAdhan(
           title: AppLocalizations.of(context).duhur,
           body: "${AppLocalizations.of(context).duhur} ${prayerTimes.dhuhr}",
           date: prayerTimes.dhuhr,
-          sound: 'azan2',
-          muted: _isMuted);
+          muted: !_isMuted);
     else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.asr)
-      localNotifyManager.showFullScreenNotification(
+      localNotifyManager.showAdhan(
           title: AppLocalizations.of(context).asr,
           body: "${AppLocalizations.of(context).asr} ${prayerTimes.asr}",
           date: prayerTimes.asr,
-          sound: 'azan2',
-          muted: _isMuted);
+          muted: !_isMuted);
     else if (DateTime.now().subtract(Duration(seconds: 3)) ==
         prayerTimes.maghrib)
-      localNotifyManager.showFullScreenNotification(
+      localNotifyManager.showAdhan(
           title: AppLocalizations.of(context).maghrib,
           body:
               "${AppLocalizations.of(context).maghrib} ${prayerTimes.maghrib}",
           date: prayerTimes.maghrib,
-          sound: 'azan2',
-          muted: _isMuted);
+          muted: !_isMuted);
     else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.isha)
-      localNotifyManager.showFullScreenNotification(
+      localNotifyManager.showAdhan(
           title: AppLocalizations.of(context).isha,
           body: "${AppLocalizations.of(context).isha} ${prayerTimes.isha}",
           date: prayerTimes.isha,
-          sound: 'azan2',
-          muted: _isMuted);
+          muted: !_isMuted);
     else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.fajr)
-      localNotifyManager.showFullScreenNotification(
+      localNotifyManager.showAdhan(
           title: AppLocalizations.of(context).fajr,
           body: "${AppLocalizations.of(context).fajr} ${prayerTimes.fajr}",
           date: prayerTimes.fajr,
-          sound: 'azan2',
-          muted: _isMuted);
+          muted: !_isMuted);
   }
 
   bool _isMuted;
@@ -242,6 +237,13 @@ class _HomeBannerState extends State<HomeBanner> {
     var _timebetween = _timeminutes - (_timeinhours * 60);
     final deviceHeight = MediaQuery.of(context).size.height;
     final deviceWidth = MediaQuery.of(context).size.width;
+    int calculateDifference(DateTime date) {
+      DateTime now = DateTime.now();
+      return DateTime(date.year, date.month, date.day)
+          .difference(DateTime(now.year, now.month, now.day))
+          .inDays;
+    }
+
     if (!_loading)
       switch (prayerTimes.nextPrayer()) {
         case Prayer.dhuhr:
@@ -293,38 +295,40 @@ class _HomeBannerState extends State<HomeBanner> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      width: deviceWidth * .20,
+                      width: deviceWidth * .25,
                       child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
-                                padding: EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.2),
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    SharedPreferences prefs =
-                                        await SharedPreferences.getInstance();
+                              padding: EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: GestureDetector(
+                                onTap: () async {
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  _isMuted
+                                      ? prefs.setBool("mute", false)
+                                      : prefs.setBool("mute", true);
+                                  setState(() {
+                                    _isMuted = prefs.getBool("mute") ?? false;
+                                  });
+                                  localNotifyManager.showAdhan(
+                                      title: "title",
+                                      body: "body",
+                                      date: DateTime.now(),
+                                      muted: true,
+                                      no: '10');
+                                },
+                                child: Icon(
                                     _isMuted
-                                        ? prefs.setBool("mute", false)
-                                        : prefs.setBool("mute", true);
-                                    setState(() {
-                                      _isMuted = prefs.getBool("mute") ?? false;
-                                    });
-                                    localNotifyManager
-                                        .showFullScreenNotification(
-                                            title: "title",
-                                            body: "body",
-                                            date: DateTime.now(),
-                                            sound: 'azan2');
-                                  },
-                                  child: Icon(
-                                      _isMuted
-                                          ? CupertinoIcons.speaker_2_fill
-                                          : CupertinoIcons.speaker_fill,
-                                      color: Colors.white),
-                                )),
+                                        ? CupertinoIcons.speaker_2_fill
+                                        : CupertinoIcons.speaker_fill,
+                                    color: Colors.white),
+                              ),
+                            ),
+                            SizedBox(width: 8),
                             Text(
                                 _isMuted
                                     ? AppLocalizations.of(context).ring
@@ -342,16 +346,29 @@ class _HomeBannerState extends State<HomeBanner> {
                             fontSize: 40,
                             fontWeight: FontWeight.bold)),
                     SizedBox(height: deviceHeight * .02),
-                    Expanded(
-                      child: Text(
-                        '${_timeinhours.toString()}:${_timebetween.toString()} ${AppLocalizations.of(context).hoursleft} ' +
-                            _nxtPrayerName,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    )
+                    if (calculateDifference(_prayernxt) == 1 &&
+                        _prayernxt == prayerTimes.fajr)
+                      Expanded(
+                        child: Text(
+                          '${AppLocalizations.of(context).tmr} ' +
+                              _nxtPrayerName,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    else
+                      Expanded(
+                        child: Text(
+                          '${_timeinhours.toString()}:${_timebetween.toString()} ${AppLocalizations.of(context).hoursleft} ' +
+                              _nxtPrayerName,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      )
                   ],
                 ),
                 Container(
