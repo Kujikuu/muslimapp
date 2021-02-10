@@ -62,7 +62,7 @@ class _Main_ScreenState extends State<Main_Screen> {
         // fixedColor: Theme.of(context).primaryColor,
         // showUnselectedLabels: false,
         // unselectedItemColor: Theme.of(context).accentColor,
-        selectedItemColor: Theme.of(context).primaryColorDark,
+        // selectedItemColor: Theme.of(context).primaryColorDark,
         onTap: (index) => changeTab(index),
         currentIndex: _currentIndex,
         items: [

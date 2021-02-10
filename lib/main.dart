@@ -251,8 +251,6 @@ class _MyAppState extends State<MyApp> {
             platform: TargetPlatform.iOS,
             primarySwatch: _color,
             brightness: _brightness,
-            primaryColorDark: _color,
-            primaryIconTheme: IconThemeData(color: _color),
             // primaryColor: primaryColor,
             visualDensity: VisualDensity.adaptivePlatformDensity),
         home: WelcomeScreen());

@@ -115,7 +115,7 @@ class _HomeBannerState extends State<HomeBanner> {
     localNotifyManager.setOnNotificationReceive(onNotificationReceive);
     localNotifyManager.setOnNotificationClick(onNotificationClick);
     this._dateTime = DateTime.now();
-    _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
+    _timer = Timer.periodic(Duration(seconds: 5), (Timer timer) {
       // schedules();
       setMute();
       setState(() {
@@ -346,8 +346,8 @@ class _HomeBannerState extends State<HomeBanner> {
                             fontSize: 40,
                             fontWeight: FontWeight.bold)),
                     SizedBox(height: deviceHeight * .005),
-                    if (calculateDifference(_prayernxt) == 0 &&
-                        _prayernxt == prayerTimes.fajr)
+                    if (DateTime.now().isAfter(prayerTimes.isha) &&
+                        DateTime.now().hour < 11)
                       Expanded(
                         child: Text(
                           '${AppLocalizations.of(context).tmr} ',
