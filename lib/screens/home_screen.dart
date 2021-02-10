@@ -68,6 +68,9 @@ class _HomeScreenState extends State<HomeScreen> {
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var first = addresses.first;
+    setState(() {
+      _loading = false;
+    });
     await setAdreesName(first.locality);
     setState(() {
       _loading = false;
@@ -147,9 +150,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> setAdreesName(String value) async {
-    setState(() {
-      _loading = false;
-    });
+    // setState(() {
+    //   _loading = false;
+    // });
     setState(() {
       addressName = value;
     });

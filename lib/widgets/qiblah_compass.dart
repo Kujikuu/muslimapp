@@ -29,6 +29,7 @@ class _QiblahCompassState extends State<QiblahCompass> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.white,
       alignment: Alignment.center,
       padding: const EdgeInsets.all(8.0),
       child: StreamBuilder(

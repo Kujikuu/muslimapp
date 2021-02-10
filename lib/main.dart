@@ -1,6 +1,5 @@
 import 'package:adhan/adhan.dart';
 import 'package:android_alarm_manager/android_alarm_manager.dart';
-import 'package:cron/cron.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -11,56 +10,16 @@ import 'package:muslimapp/screens/welcome_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:muslimapp/ulit/LocalNotifyManager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:workmanager/workmanager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  // initPrayers();
-  // Workmanager.initialize(
-  //     callbackDispatcher, // The top level function, aka callbackDispatcher
-  //     isInDebugMode:
-  //         false // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
-  //     );
-  // Workmanager.cancelAll();
-  // Workmanager.registerPeriodicTask(
-  //   "1",
-  //   "schedules",
-  // );
   await AndroidAlarmManager.initialize();
   runApp(MyApp());
   initPrayers();
   await AndroidAlarmManager.cancel(0);
   await AndroidAlarmManager.periodic(const Duration(minutes: 5), 0, schedules,
       rescheduleOnReboot: true, wakeup: true);
-  // var cron = new Cron();
-  // cron.schedule(new Schedule.parse('/1 * * * *'), () async {
-  //   schedules();
-  // });
-}
-
-void callbackDispatcher() {
-  Workmanager.executeTask((task, inputData) {
-    // initPrayers();
-    schedules();
-    // await loadPrefs();
-    // getLocationData().then((locationData) {
-    //   if (locationData != null) {
-    //     prayerTimes = PrayerTimes(
-    //         Coordinates(locationData.latitude, locationData.longitude),
-    //         DateComponents.from(DateTime.now()),
-    //         params);
-    //     schedules();
-    //   }
-    // });
-    // if (task == "schedules") {
-    //   localNotifyManager.showAdhan(
-    //       title: pr.fajr.toString(),
-    //       body: pr.asr.toString(),
-    //       date: DateTime.now());
-    // }
-    return Future.value(true);
-  });
 }
 
 PrayerTimes prayerTimes;
@@ -281,11 +240,19 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         title: 'Muslim App',
         theme: ThemeData(
-            appBarTheme: AppBarTheme(centerTitle: false),
+            appBarTheme: AppBarTheme(
+                centerTitle: false,
+                textTheme: TextTheme(
+                    title: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
+                        fontFamily: GoogleFonts.tajawal().fontFamily))),
             fontFamily: GoogleFonts.tajawal().fontFamily,
             platform: TargetPlatform.iOS,
             primarySwatch: _color,
             brightness: _brightness,
+            primaryColorDark: _color,
+            primaryIconTheme: IconThemeData(color: _color),
             // primaryColor: primaryColor,
             visualDensity: VisualDensity.adaptivePlatformDensity),
         home: WelcomeScreen());

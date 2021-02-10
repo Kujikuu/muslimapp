@@ -1,18 +1,13 @@
 import 'dart:async';
-
 import 'package:adhan/adhan.dart';
-import 'package:cron/cron.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
-import 'package:intl/locale.dart';
 import 'package:location/location.dart';
 import 'package:muslimapp/ulit/LocalNotifyManager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:workmanager/workmanager.dart';
 
 class HomeBanner extends StatefulWidget {
   @override
@@ -30,6 +25,12 @@ class _HomeBannerState extends State<HomeBanner> {
     setState(() {
       _isMuted = prefs.getBool("mute") ?? false;
     });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel;
+    super.dispose();
   }
 
   Future<LocationData> getLocationData() async {
@@ -344,7 +345,7 @@ class _HomeBannerState extends State<HomeBanner> {
                             color: Colors.white,
                             fontSize: 40,
                             fontWeight: FontWeight.bold)),
-                    SizedBox(height: deviceHeight * .02),
+                    SizedBox(height: deviceHeight * .005),
                     if (calculateDifference(_prayernxt) == 0 &&
                         _prayernxt == prayerTimes.fajr)
                       Expanded(
