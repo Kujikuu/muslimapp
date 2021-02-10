@@ -29,7 +29,7 @@ class _QiblahCompassState extends State<QiblahCompass> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      // color: Colors.white,
       alignment: Alignment.center,
       padding: const EdgeInsets.all(8.0),
       child: StreamBuilder(
@@ -92,7 +92,11 @@ class _QiblahCompassState extends State<QiblahCompass> {
 }
 
 class QiblahCompassWidget extends StatelessWidget {
-  final _compassSvg = SvgPicture.asset('assets/compass.svg');
+  final _compassSvg = SvgPicture.asset(
+    'assets/compass.svg',
+    // colorBlendMode: BlendMode.color,
+    color: Colors.grey,
+  );
   final _needleSvg = SvgPicture.asset(
     'assets/needle.svg',
     fit: BoxFit.contain,
