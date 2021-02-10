@@ -354,6 +354,7 @@ class _HomeBannerState extends State<HomeBanner> {
                     SizedBox(height: deviceHeight * .02),
                     Text(AppLocalizations.of(context).nextprayer,
                         style: TextStyle(color: Colors.white, fontSize: 20)),
+                    SizedBox(height: deviceHeight * .005),
                     Text(DateFormat.jm().format(_prayernxt),
                         style: TextStyle(
                             color: Colors.white,
@@ -372,15 +373,35 @@ class _HomeBannerState extends State<HomeBanner> {
                         ),
                       )
                     else
-                      Expanded(
-                        child: Text(
-                          '${_timeinhours.toString()}:${_timebetween.toString()} ${AppLocalizations.of(context).hoursleft} ' +
-                              _nxtPrayerName,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            _timeinhours < 10
+                                ? '0${_timeinhours.toString()}:'
+                                : '${_timeinhours.toString()}:',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            _timebetween < 10
+                                ? '0${_timebetween.toString()}'
+                                : '${_timebetween.toString()}',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            ' ${AppLocalizations.of(context).hoursleft} ' +
+                                _nxtPrayerName,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
                       )
                   ],
                 ),
