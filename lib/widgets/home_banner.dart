@@ -319,28 +319,22 @@ class _HomeBannerState extends State<HomeBanner> {
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Container(
-                              padding: EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.2),
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: GestureDetector(
-                                onTap: () async {
-                                  SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
-                                  _isMuted
-                                      ? prefs.setBool("mute", false)
-                                      : prefs.setBool("mute", true);
-                                  setState(() {
-                                    _isMuted = prefs.getBool("mute") ?? false;
-                                  });
-                                  // localNotifyManager.showAdhan(
-                                  //     title: "title",
-                                  //     body: "body",
-                                  //     date: DateTime.now(),
-                                  //     muted: true,
-                                  //     no: '10');
-                                },
+                            GestureDetector(
+                              onTap: () async {
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                _isMuted
+                                    ? prefs.setBool("mute", false)
+                                    : prefs.setBool("mute", true);
+                                setState(() {
+                                  _isMuted = prefs.getBool("mute") ?? false;
+                                });
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(5)),
                                 child: Icon(
                                     _isMuted
                                         ? CupertinoIcons.speaker_2_fill
