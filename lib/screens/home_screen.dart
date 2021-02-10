@@ -95,11 +95,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              DateFormat('EEEE, d MMMM').format(DateTime.now()),
+                              DateFormat('EEEE, d MMMM y')
+                                  .format(DateTime.now()),
                               style: TextStyle(fontSize: 12),
                             ),
                             Text(
-                              HijriCalendar.now().toFormat('dd, MMM yyyy'),
+                              HijriCalendar.now().toFormat('MMMM, d yyyy'),
                               style: TextStyle(fontSize: 12),
                             ),
                           ],

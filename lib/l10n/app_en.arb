@@ -195,6 +195,10 @@
   "@tmr": {
   "description": ""
 },
+"shareapp" : "Share App",
+  "@shareapp": {
+  "description": ""
+},
 "aya" : "Hadith",
   "@aya": {
   "description": ""

@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'dart:math';
 
+import 'package:apk_admin/apk_admin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +10,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:muslimapp/account/signinemail.dart';
 import 'package:muslimapp/main.dart';
 import 'package:muslimapp/screens/account_screen.dart';
+import 'package:muslimapp/screens/main_screen.dart';
 import 'package:muslimapp/settings/colortheme_settings.dart';
 import 'package:muslimapp/settings/lang_settings.dart';
 import 'package:muslimapp/settings/prayertimes_screen.dart';
+import 'package:muslimapp/widgets/home_banner.dart';
 import 'package:muslimapp/widgets/rateapp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -248,6 +252,19 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                           );
                         },
                       ),
+                      if (Platform.isAndroid) _buildDivider(),
+                      if (Platform.isAndroid)
+                        ListTile(
+                          leading: Icon(
+                            CupertinoIcons.share,
+                          ),
+                          title: Text(AppLocalizations.of(context).shareapp),
+                          onTap: () async {
+                            ApkExporter apkExporter = ApkExporter();
+                            await apkExporter
+                                .shareAppViaBluetooth("com.kujiku.muslimapp");
+                          },
+                        ),
                       _buildDivider(),
                       ListTile(
                         leading: Icon(

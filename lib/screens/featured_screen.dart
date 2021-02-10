@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:share/share.dart';
 
 class FeaturedScreen extends StatefulWidget {
   @override
@@ -89,7 +90,10 @@ Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
           Divider(),
           FlatButton.icon(
               minWidth: deviceWidth / 2.6,
-              onPressed: () {},
+              onPressed: () {
+                Share.share(
+                    "Muslim App \n${record.of} \n ${record.content} \n\n Download Muslim app from https://play.google.com/store/apps/details?id=com.kujiku.muslimapp");
+              },
               icon: Icon(Icons.share),
               label: Text(AppLocalizations.of(context).share))
         ],

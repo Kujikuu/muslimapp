@@ -14,12 +14,6 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:workmanager/workmanager.dart';
 
 class HomeBanner extends StatefulWidget {
-  static void loadPrayers(BuildContext context) async {
-    _HomeBannerState state =
-        context.findAncestorStateOfType<_HomeBannerState>();
-    state.loadPrefs();
-  }
-
   @override
   _HomeBannerState createState() => _HomeBannerState();
 }
@@ -36,6 +30,13 @@ class _HomeBannerState extends State<HomeBanner> {
           "Native called background task: $task"); //simpleTask will be emitted here.
       schedules();
       return Future.value(true);
+    });
+  }
+
+  setMute() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isMuted = prefs.getBool("mute") ?? false;
     });
   }
 
@@ -120,8 +121,10 @@ class _HomeBannerState extends State<HomeBanner> {
         isInDebugMode:
             false // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
         );
-    Workmanager.registerPeriodicTask("1", "simpleTask",
-        frequency: Duration(minutes: 15)); //Android only (see below)
+    Workmanager.registerPeriodicTask(
+      "2",
+      "simpleTask",
+    ); //Android only (see below)
     super.initState();
     loadPrefs();
     localNotifyManager.setOnNotificationReceive(onNotificationReceive);
@@ -129,6 +132,7 @@ class _HomeBannerState extends State<HomeBanner> {
     this._dateTime = DateTime.now();
     _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
       // schedules();
+      setMute();
       setState(() {
         _prayernxt = _prayernxt;
         _isMuted = _isMuted;
@@ -212,38 +216,37 @@ class _HomeBannerState extends State<HomeBanner> {
   var _prayernxt;
   void schedules() {
     // print('schedules');
-    if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.dhuhr)
-      localNotifyManager.showAdhan(
-          title: AppLocalizations.of(context).duhur,
-          body: "${AppLocalizations.of(context).duhur} ${prayerTimes.dhuhr}",
-          date: prayerTimes.dhuhr,
-          muted: !_isMuted);
-    else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.asr)
-      localNotifyManager.showAdhan(
-          title: AppLocalizations.of(context).asr,
-          body: "${AppLocalizations.of(context).asr} ${prayerTimes.asr}",
-          date: prayerTimes.asr,
-          muted: !_isMuted);
-    else if (DateTime.now().subtract(Duration(seconds: 3)) ==
-        prayerTimes.maghrib)
-      localNotifyManager.showAdhan(
-          title: AppLocalizations.of(context).maghrib,
-          body:
-              "${AppLocalizations.of(context).maghrib} ${prayerTimes.maghrib}",
-          date: prayerTimes.maghrib,
-          muted: !_isMuted);
-    else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.isha)
-      localNotifyManager.showAdhan(
-          title: AppLocalizations.of(context).isha,
-          body: "${AppLocalizations.of(context).isha} ${prayerTimes.isha}",
-          date: prayerTimes.isha,
-          muted: !_isMuted);
-    else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.fajr)
-      localNotifyManager.showAdhan(
-          title: AppLocalizations.of(context).fajr,
-          body: "${AppLocalizations.of(context).fajr} ${prayerTimes.fajr}",
-          date: prayerTimes.fajr,
-          muted: !_isMuted);
+    // if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.dhuhr)
+    localNotifyManager.showAdhan(
+        title: AppLocalizations.of(context).duhur,
+        body: "${AppLocalizations.of(context).duhur} ${prayerTimes.dhuhr}",
+        date: prayerTimes.dhuhr,
+        muted: !_isMuted);
+    // else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.asr)
+    localNotifyManager.showAdhan(
+        title: AppLocalizations.of(context).asr,
+        body: "${AppLocalizations.of(context).asr} ${prayerTimes.asr}",
+        date: prayerTimes.asr,
+        muted: !_isMuted);
+    // else if (DateTime.now().subtract(Duration(seconds: 3)) ==
+    //     prayerTimes.maghrib)
+    localNotifyManager.showAdhan(
+        title: AppLocalizations.of(context).maghrib,
+        body: "${AppLocalizations.of(context).maghrib} ${prayerTimes.maghrib}",
+        date: prayerTimes.maghrib,
+        muted: !_isMuted);
+    // else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.isha)
+    localNotifyManager.showAdhan(
+        title: AppLocalizations.of(context).isha,
+        body: "${AppLocalizations.of(context).isha} ${prayerTimes.isha}",
+        date: prayerTimes.isha,
+        muted: !_isMuted);
+    // else if (DateTime.now().subtract(Duration(seconds: 3)) == prayerTimes.fajr)
+    localNotifyManager.showAdhan(
+        title: AppLocalizations.of(context).fajr,
+        body: "${AppLocalizations.of(context).fajr} ${prayerTimes.fajr}",
+        date: prayerTimes.fajr,
+        muted: !_isMuted);
   }
 
   bool _isMuted;
@@ -331,12 +334,12 @@ class _HomeBannerState extends State<HomeBanner> {
                                   setState(() {
                                     _isMuted = prefs.getBool("mute") ?? false;
                                   });
-                                  localNotifyManager.showAdhan(
-                                      title: "title",
-                                      body: "body",
-                                      date: DateTime.now(),
-                                      muted: true,
-                                      no: '10');
+                                  // localNotifyManager.showAdhan(
+                                  //     title: "title",
+                                  //     body: "body",
+                                  //     date: DateTime.now(),
+                                  //     muted: true,
+                                  //     no: '10');
                                 },
                                 child: Icon(
                                     _isMuted
@@ -363,12 +366,11 @@ class _HomeBannerState extends State<HomeBanner> {
                             fontSize: 40,
                             fontWeight: FontWeight.bold)),
                     SizedBox(height: deviceHeight * .02),
-                    if (calculateDifference(_prayernxt) == 1 &&
+                    if (calculateDifference(_prayernxt) == 0 &&
                         _prayernxt == prayerTimes.fajr)
                       Expanded(
                         child: Text(
-                          '${AppLocalizations.of(context).tmr} ' +
-                              _nxtPrayerName,
+                          '${AppLocalizations.of(context).tmr} ',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
