@@ -71,9 +71,9 @@ class LocalNotifyManager {
   }
 
   Future<void> showAdhan(
-      {String title,
-      String body,
-      DateTime date,
+      {@required String title,
+      @required String body,
+      @required DateTime date,
       bool muted = true,
       String no = "2"}) async {
     var androidChannel = AndroidNotificationDetails(
@@ -92,8 +92,9 @@ class LocalNotifyManager {
     var iosChannel = IOSNotificationDetails(sound: 'azan$no.mp3');
     var platformChannel =
         NotificationDetails(android: androidChannel, iOS: iosChannel);
+    // ignore: deprecated_member_use
     await flutterLocalNotificationsPlugin.schedule(
-      0,
+      int.parse(no),
       title,
       body,
       date,

@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/locale.dart';
 import 'package:location/location.dart';
 import 'package:muslimapp/ulit/LocalNotifyManager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,15 +24,6 @@ class _HomeBannerState extends State<HomeBanner> {
   String locationError;
   PrayerTimes prayerTimes;
   bool _loading = true;
-
-  void callbackDispatcher() {
-    Workmanager.executeTask((task, inputData) {
-      print(
-          "Native called background task: $task"); //simpleTask will be emitted here.
-      schedules();
-      return Future.value(true);
-    });
-  }
 
   setMute() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -116,15 +108,7 @@ class _HomeBannerState extends State<HomeBanner> {
     // cron.schedule(new Schedule.parse('0 1 * * *'), () async {
     //   schedules();
     // });
-    Workmanager.initialize(
-        callbackDispatcher, // The top level function, aka callbackDispatcher
-        isInDebugMode:
-            false // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
-        );
-    Workmanager.registerPeriodicTask(
-      "2",
-      "simpleTask",
-    ); //Android only (see below)
+
     super.initState();
     loadPrefs();
     localNotifyManager.setOnNotificationReceive(onNotificationReceive);
@@ -377,17 +361,8 @@ class _HomeBannerState extends State<HomeBanner> {
                         children: [
                           Text(
                             _timeinhours < 10
-                                ? '0${_timeinhours.toString()}:'
-                                : '${_timeinhours.toString()}:',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            _timebetween < 10
-                                ? '0${_timebetween.toString()}'
-                                : '${_timebetween.toString()}',
+                                ? '0${_timeinhours.toString()}:${_timebetween.toString()}'
+                                : '${_timeinhours.toString()}:${_timebetween.toString()}',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,

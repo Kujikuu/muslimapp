@@ -1,8 +1,12 @@
+import 'package:adhan/adhan.dart';
+import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:muslimapp/screens/main_screen.dart';
+import 'package:muslimapp/ulit/LocalNotifyManager.dart';
 import 'package:muslimapp/ulit/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -53,11 +57,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     // textColor: Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25)),
-                    onPressed: () {
+                    onPressed: () async {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => Main_Screen()));
+
                       // FirebaseUser user =
                       //     await FirebaseAuth.instance.currentUser();
                       // Navigator.pushReplacement(context, MaterialPageRoute(

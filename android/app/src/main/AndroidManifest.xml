@@ -1,5 +1,4 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.kujiku.muslimapp">
-
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.VIBRATE" />
@@ -7,6 +6,7 @@
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	<application android:name="io.flutter.app.FlutterApplication" android:label="Muslim App" android:icon="@mipmap/ic_launcher">
 		<receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
 			<intent-filter>
@@ -34,5 +34,12 @@
 			</intent-filter>
 		</service>
 		<meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-5605516396160105~9049569877" />
+		<service android:name="io.flutter.plugins.androidalarmmanager.AlarmService" android:permission="android.permission.BIND_JOB_SERVICE" android:exported="false" />
+		<receiver android:name="io.flutter.plugins.androidalarmmanager.AlarmBroadcastReceiver" android:exported="false" />
+		<receiver android:name="io.flutter.plugins.androidalarmmanager.RebootBroadcastReceiver" android:enabled="false">
+			<intent-filter>
+				<action android:name="android.intent.action.BOOT_COMPLETED" />
+			</intent-filter>
+		</receiver>
 	</application>
 </manifest>

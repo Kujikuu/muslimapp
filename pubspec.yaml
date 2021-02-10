@@ -24,6 +24,7 @@ dependencies:
   flutter_qiblah: 
   flutter_svg:
   geolocator:
+  get:
   flutter_local_notifications: 
   location: 
   intl: 
