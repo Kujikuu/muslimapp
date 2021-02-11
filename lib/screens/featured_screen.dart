@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:muslimapp/screens/feature_details.dart';
 import 'package:share/share.dart';
 
 class FeaturedScreen extends StatefulWidget {
@@ -50,53 +51,65 @@ Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
   final deviceHeight = MediaQuery.of(context).size.height;
   final deviceWidth = MediaQuery.of(context).size.width;
   final record = Record.fromSnapshot(data);
-  return Card(
-    elevation: 3,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-    child: Padding(
-      padding: EdgeInsets.only(top: 10, bottom: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                record.of == "Verse of day"
-                    ? 'assets/quran.png'
-                    : 'assets/hadith.png',
-                height: 30,
-              ),
-              SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    record.of.contains("Verse")
-                        ? AppLocalizations.of(context).verse
-                        : AppLocalizations.of(context).aya,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Divider(),
-          CachedNetworkImage(
-            imageUrl: record.content,
-            fit: BoxFit.cover,
-            width: deviceWidth,
-          ),
-          Divider(),
-          FlatButton.icon(
-              minWidth: deviceWidth / 2.6,
-              onPressed: () {
-                Share.share(
-                    "Muslim App \n${record.of} \n ${record.content} \n\n Download Muslim app from https://play.google.com/store/apps/details?id=com.kujiku.muslimapp");
+  return Container(
+    child: Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: EdgeInsets.only(top: 10, bottom: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  record.of.contains("Verse")
+                      ? 'assets/quran.png'
+                      : 'assets/hadith.jpg',
+                  height: 30,
+                ),
+                SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      record.of.contains("Verse")
+                          ? AppLocalizations.of(context).verse
+                          : AppLocalizations.of(context).aya,
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Divider(),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => FeatureDetails(
+                            img: record.content, title: record.of)));
               },
-              icon: Icon(Icons.share),
-              label: Text(AppLocalizations.of(context).share))
-        ],
+              child: CachedNetworkImage(
+                imageUrl: record.content,
+                fit: BoxFit.cover,
+                width: deviceWidth,
+              ),
+            ),
+            Divider(),
+            FlatButton.icon(
+                minWidth: deviceWidth / 2.6,
+                onPressed: () {
+                  Share.share(
+                      "Muslim App \n${record.of} \n ${record.content} \n\n Download Muslim app from https://play.google.com/store/apps/details?id=com.kujiku.muslimapp");
+                },
+                icon: Icon(Icons.share),
+                label: Text(AppLocalizations.of(context).share))
+          ],
+        ),
       ),
     ),
   );

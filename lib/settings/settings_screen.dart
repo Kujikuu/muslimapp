@@ -152,6 +152,8 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                     children: <Widget>[
                       SwitchListTile(
                         title: Text(AppLocalizations.of(context).notifications),
+                        subtitle:
+                            Text(AppLocalizations.of(context).notificationssub),
                         value: _isMuted,
                         selected: _isMuted,
                         onChanged: (value) async {
@@ -181,6 +183,8 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                           FontAwesomeIcons.quran,
                         ),
                         title: Text(AppLocalizations.of(context).prayertimes),
+                        subtitle:
+                            Text(AppLocalizations.of(context).prayertimessub),
                         onTap: () {
                           if (isAds == 3)
                             createInterAd()
@@ -198,6 +202,8 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                           FontAwesomeIcons.language,
                         ),
                         title: Text(AppLocalizations.of(context).langsettings),
+                        subtitle:
+                            Text(AppLocalizations.of(context).langsettingssub),
                         onTap: () {
                           if (isAds == 3)
                             createInterAd()
@@ -215,6 +221,8 @@ class _SettingsOnePageState extends State<SettingsOnePage> {
                           FontAwesomeIcons.palette,
                         ),
                         title: Text(AppLocalizations.of(context).colortheme),
+                        subtitle:
+                            Text(AppLocalizations.of(context).colorthemesub),
                         onTap: () {
                           if (isAds == 3)
                             createInterAd()

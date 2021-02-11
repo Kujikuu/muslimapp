@@ -67,6 +67,10 @@
   "@langsettings": {
   "description": ""
 },
+"langsettingssub" : "تغيير اللغة",
+  "@langsettingssub": {
+  "description": ""
+},
 "madhabsettings" : "تفضيلات المذهب",
   "@madhabsettings": {
   "description": ""
@@ -77,6 +81,10 @@
 },
 "prayertimes" : "مواقيت الصلاة",
   "@prayertimes": {
+  "description": ""
+},
+"prayertimessub" : "تحديد طريقة حسابة وقت الصلوات والمذهب",
+  "@prayertimessub": {
   "description": ""
 },
 "arabic" : "اللغة العربية",
@@ -95,8 +103,16 @@
   "@notifications": {
   "description": ""
 },
+"notificationssub" : "تحكم فى الإشعارات والتنبيهات",
+  "@notificationssub": {
+  "description": ""
+},
 "colortheme" : "تفضيلات المظهر",
   "@colortheme": {
+  "description": ""
+},
+"colorthemesub" : "تحكم في اللون الرئيسي للتطبيق",
+  "@colorthemesub": {
   "description": ""
 },
 "rateapp" : "تقييم التطبيق",

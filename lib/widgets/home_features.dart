@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:muslimapp/screens/feature_details.dart';
 import 'package:share/share.dart';
 
 class BuildFeatures extends StatelessWidget {
@@ -53,27 +54,40 @@ Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CachedNetworkImage(
-                height: 30,
-                imageUrl: record.of.contains("Verse")
-                    ? 'https://images-na.ssl-images-amazon.com/images/I/41APHvabE0L.png'
-                    : 'https://alandroidnet.com/app-img/app_image_big_7480.jpg',
-                fit: BoxFit.cover,
-              ),
-              SizedBox(width: deviceWidth * .03),
-              Text(
+              Image.asset(
                 record.of.contains("Verse")
-                    ? AppLocalizations.of(context).verse
-                    : AppLocalizations.of(context).aya,
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                    ? 'assets/quran.png'
+                    : 'assets/hadith.jpg',
+                height: 30,
+              ),
+              SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    record.of.contains("Verse")
+                        ? AppLocalizations.of(context).verse
+                        : AppLocalizations.of(context).aya,
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
             ],
           ),
           Divider(),
-          CachedNetworkImage(
-            imageUrl: record.content,
-            fit: BoxFit.cover,
-            width: deviceWidth,
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => FeatureDetails(
+                          img: record.content, title: record.of)));
+            },
+            child: CachedNetworkImage(
+              imageUrl: record.content,
+              fit: BoxFit.cover,
+              width: deviceWidth,
+            ),
           ),
           Divider(),
           FlatButton.icon(

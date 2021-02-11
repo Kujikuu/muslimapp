@@ -87,6 +87,14 @@
   "@prayertimes": {
   "description": ""
 },
+"prayertimessub" : "Control prayertimes madhab and method",
+  "@prayertimessub": {
+  "description": ""
+},
+"langsettingssub" : "Change App Language",
+  "@langsettingssub": {
+  "description": ""
+},
 "signuporlogin" : "Signup or Login",
   "@signuporlogin": {
   "description": ""
@@ -95,8 +103,16 @@
   "@notifications": {
   "description": ""
 },
+"notificationssub" : "Control for adhan notifications",
+  "@notificationssub": {
+  "description": ""
+},
 "colortheme" : "Color Themes",
   "@colortheme": {
+  "description": ""
+},
+"colorthemesub" : "Control for main App colortheme",
+  "@colorthemesub": {
   "description": ""
 },
 "rateapp" : "Rate App",

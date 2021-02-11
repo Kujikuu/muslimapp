@@ -303,6 +303,7 @@ class _HomeBannerState extends State<HomeBanner> {
                       width: deviceWidth * .25,
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             GestureDetector(
                               onTap: () async {
