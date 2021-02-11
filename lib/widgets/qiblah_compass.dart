@@ -6,6 +6,7 @@ import 'package:flutter_qiblah/flutter_qiblah.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'loading_indicator.dart';
 import 'location_error_widget.dart';
 
@@ -114,24 +115,36 @@ class QiblahCompassWidget extends StatelessWidget {
 
         final qiblahDirection = snapshot.data;
 
-        return Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Transform.rotate(
-              angle: ((qiblahDirection.direction ?? 0) * (pi / 180) * -1),
-              child: _compassSvg,
-            ),
-            Transform.rotate(
-              angle: ((qiblahDirection.qiblah ?? 0) * (pi / 180) * -1),
-              alignment: Alignment.center,
-              child: _needleSvg,
-            ),
-            Positioned(
-              bottom: 8,
-              child: Text(
-                  "${AppLocalizations.of(context).qebla}: ${qiblahDirection.offset.toStringAsFixed(3)}°"),
-            )
-          ],
+        return Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              Container(
+                child: GoogleMap(
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(37.42796133580664, -122.085749655962),
+                    zoom: 14.4746,
+                  ),
+                  mapType: MapType.hybrid,
+                ),
+              ),
+              Transform.rotate(
+                angle: ((qiblahDirection.direction ?? 0) * (pi / 180) * -1),
+                child: _compassSvg,
+              ),
+              Transform.rotate(
+                angle: ((qiblahDirection.qiblah ?? 0) * (pi / 180) * -1),
+                alignment: Alignment.center,
+                child: _needleSvg,
+              ),
+              Positioned(
+                bottom: 8,
+                child: Text(
+                    "${AppLocalizations.of(context).qebla}: ${qiblahDirection.offset.toStringAsFixed(3)}°"),
+              )
+            ],
+          ),
         );
       },
     );
