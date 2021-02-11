@@ -1,7 +1,7 @@
 name: muslimapp
 description: A new Flutter project.
 
-version: 1.0.2+2
+version: 1.0.3+2
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
