@@ -120,15 +120,15 @@ class QiblahCompassWidget extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center,
             children: <Widget>[
-              Container(
-                child: GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(37.42796133580664, -122.085749655962),
-                    zoom: 14.4746,
-                  ),
-                  mapType: MapType.hybrid,
-                ),
-              ),
+              // Container(
+              //   child: GoogleMap(
+              //     initialCameraPosition: CameraPosition(
+              //       target: LatLng(37.42796133580664, -122.085749655962),
+              //       zoom: 14.4746,
+              //     ),
+              //     mapType: MapType.hybrid,
+              //   ),
+              // ),
               Transform.rotate(
                 angle: ((qiblahDirection.direction ?? 0) * (pi / 180) * -1),
                 child: _compassSvg,

@@ -10,6 +10,7 @@ import 'package:location/location.dart';
 import 'package:muslimapp/screens/welcome_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:muslimapp/ulit/LocalNotifyManager.dart';
+import 'package:muslimapp/ulit/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -253,7 +254,10 @@ class _MyAppState extends State<MyApp> {
             // platform: TargetPlatform.iOS,
             primarySwatch: _color,
             brightness: _brightness,
-            // primaryColor: primaryColor,
+            // // primaryColorDark: _color,
+            // accentColor: Theme.of(context).primaryColorDark,
+            // highlightColor: _color,
+            // indicatorColor: _color,
             visualDensity: VisualDensity.adaptivePlatformDensity),
         home: WelcomeScreen());
   }

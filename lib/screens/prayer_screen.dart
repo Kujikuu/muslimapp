@@ -219,7 +219,7 @@ class NewWidget extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         SingleChildScrollView(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.only(top: 20, bottom: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -274,21 +274,21 @@ class NewWidget extends StatelessWidget {
                       title: Text(AppLocalizations.of(context).fajr),
                       trailing: Text(DateFormat.jm().format(prayerTimes.fajr)),
                     ),
-                    Divider(),
+                    // Divider(),
                     ListTile(
                       selected: prayername == prayerTimes.dhuhr ? true : false,
                       selectedTileColor: Theme.of(context).primaryColorLight,
                       title: Text(AppLocalizations.of(context).duhur),
                       trailing: Text(DateFormat.jm().format(prayerTimes.dhuhr)),
                     ),
-                    Divider(),
+                    // Divider(),
                     ListTile(
                       selected: prayername == prayerTimes.asr ? true : false,
                       title: Text(AppLocalizations.of(context).asr),
                       selectedTileColor: Theme.of(context).primaryColorLight,
                       trailing: Text(DateFormat.jm().format(prayerTimes.asr)),
                     ),
-                    Divider(),
+                    // Divider(),
                     ListTile(
                       selected:
                           prayername == prayerTimes.maghrib ? true : false,
@@ -297,7 +297,7 @@ class NewWidget extends StatelessWidget {
                       trailing:
                           Text(DateFormat.jm().format(prayerTimes.maghrib)),
                     ),
-                    Divider(),
+                    // Divider(),
                     ListTile(
                       selected: prayername == prayerTimes.isha ? true : false,
                       selectedTileColor: Theme.of(context).primaryColorLight,
