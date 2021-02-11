@@ -194,21 +194,27 @@ class _PrayerScreenState extends State<PrayerScreen> {
           break;
       }
     return !_loading
-        ? NewWidget(prayerTimes: prayerTimes)
+        ? NewWidget(
+            prayerTimes: prayerTimes,
+            prayerimg: _nxtPrayerImg,
+            prayername: _prayernxt)
         : Center(child: CircularProgressIndicator());
   }
 }
 
 class NewWidget extends StatelessWidget {
-  const NewWidget({
-    Key key,
-    @required this.prayerTimes,
-  }) : super(key: key);
-
   final PrayerTimes prayerTimes;
+  final prayername;
+  final prayerimg;
+
+  const NewWidget({Key key, this.prayerTimes, this.prayername, this.prayerimg})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final deviceHeight = MediaQuery.of(context).size.height;
+    final deviceWidth = MediaQuery.of(context).size.width;
+
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -217,28 +223,41 @@ class NewWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Card(
-                elevation: 1.0,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    ListTile(
-                      // contentPadding: EdgeInsets.fromLTRB(100, 0, 100, 0),
-                      title: Column(
-                        children: [
-                          Text(
-                            DateFormat('EEEE, d MMMM').format(DateTime.now()),
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            HijriCalendar.now().toFormat('dd, MMMM yyyy'),
-                            style: TextStyle(fontSize: 15),
-                          ),
-                        ],
+              Container(
+                height: MediaQuery.of(context).size.height * .5,
+                child: Center(
+                  child: Column(
+                    children: [
+                      Text(AppLocalizations.of(context).nextprayer,
+                          style: TextStyle(fontSize: 20)),
+                      SizedBox(height: deviceHeight * .01),
+                      Text(DateFormat.jm().format(prayername),
+                          style: TextStyle(
+                              fontSize: 50, fontWeight: FontWeight.bold)),
+                      SizedBox(height: deviceHeight * .01),
+                      Expanded(
+                        child: Image.asset(
+                          prayerimg,
+                        ),
                       ),
+                      SizedBox(height: deviceHeight * .03),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      DateFormat('EEEE, d MMMM').format(DateTime.now()),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      HijriCalendar.now().toFormat('dd, MMMM yyyy'),
+                      style: TextStyle(fontSize: 15),
                     ),
                   ],
                 ),
@@ -250,27 +269,38 @@ class NewWidget extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     ListTile(
+                      selected: prayername == prayerTimes.fajr ? true : false,
+                      selectedTileColor: Theme.of(context).primaryColorLight,
                       title: Text(AppLocalizations.of(context).fajr),
                       trailing: Text(DateFormat.jm().format(prayerTimes.fajr)),
                     ),
                     Divider(),
                     ListTile(
+                      selected: prayername == prayerTimes.dhuhr ? true : false,
+                      selectedTileColor: Theme.of(context).primaryColorLight,
                       title: Text(AppLocalizations.of(context).duhur),
                       trailing: Text(DateFormat.jm().format(prayerTimes.dhuhr)),
                     ),
                     Divider(),
                     ListTile(
+                      selected: prayername == prayerTimes.asr ? true : false,
                       title: Text(AppLocalizations.of(context).asr),
+                      selectedTileColor: Theme.of(context).primaryColorLight,
                       trailing: Text(DateFormat.jm().format(prayerTimes.asr)),
                     ),
                     Divider(),
                     ListTile(
+                      selected:
+                          prayername == prayerTimes.maghrib ? true : false,
+                      selectedTileColor: Theme.of(context).primaryColorLight,
                       title: Text(AppLocalizations.of(context).maghrib),
                       trailing:
                           Text(DateFormat.jm().format(prayerTimes.maghrib)),
                     ),
                     Divider(),
                     ListTile(
+                      selected: prayername == prayerTimes.isha ? true : false,
+                      selectedTileColor: Theme.of(context).primaryColorLight,
                       title: Text(AppLocalizations.of(context).isha),
                       trailing: Text(DateFormat.jm().format(prayerTimes.isha)),
                     ),
