@@ -115,7 +115,7 @@ class _HomeBannerState extends State<HomeBanner> {
     localNotifyManager.setOnNotificationReceive(onNotificationReceive);
     localNotifyManager.setOnNotificationClick(onNotificationClick);
     this._dateTime = DateTime.now();
-    _timer = Timer.periodic(Duration(seconds: 5), (Timer timer) {
+    _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
       // schedules();
       setMute();
       setState(() {
