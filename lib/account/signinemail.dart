@@ -17,7 +17,6 @@ class _SignInWithEmailState extends State<SignInWithEmail> {
   TextEditingController _pass = TextEditingController();
   var _key = GlobalKey<FormState>();
   bool _autoValidation = false;
-  bool _isLoading = false;
 
   @override
   void dispose() {

@@ -1,12 +1,7 @@
-import 'package:adhan/adhan.dart';
-import 'package:android_alarm_manager/android_alarm_manager.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:muslimapp/screens/main_screen.dart';
-import 'package:muslimapp/ulit/LocalNotifyManager.dart';
 import 'package:muslimapp/ulit/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -40,10 +35,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   height: deviceHeight * 0.65,
                   child: ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(25)),
-                    child: CachedNetworkImage(
+                    child: Image.asset(
+                      'assets/welcome.jpg',
                       fit: BoxFit.cover,
-                      imageUrl:
-                          'https://image.freepik.com/free-vector/purple-islamic-background-with-mosque_1055-529.jpg',
                     ),
                   ),
                 ),

@@ -1,6 +1,5 @@
 import 'package:adhan/adhan.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
@@ -194,7 +193,9 @@ class _PrayerScreenState extends State<PrayerScreen> {
           _prayernxt = prayerTimes.fajr;
           break;
       }
-    return !_loading ? NewWidget(prayerTimes: prayerTimes) : Center(child: CircularProgressIndicator());
+    return !_loading
+        ? NewWidget(prayerTimes: prayerTimes)
+        : Center(child: CircularProgressIndicator());
   }
 }
 

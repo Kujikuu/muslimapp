@@ -61,11 +61,11 @@ Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CachedNetworkImage(
+              Image.asset(
+                record.of == "Verse of day"
+                    ? 'assets/quran.png'
+                    : 'assets/hadith.png',
                 height: 30,
-                imageUrl: record.of == "Verse of day"
-                    ? 'https://images-na.ssl-images-amazon.com/images/I/41APHvabE0L.png'
-                    : 'https://alandroidnet.com/app-img/app_image_big_7480.jpg',
               ),
               SizedBox(width: 10),
               Column(

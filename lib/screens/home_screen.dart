@@ -1,12 +1,10 @@
 // import 'package:firebase_admob/firebase_admob.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
-import 'package:muslimapp/main.dart';
 import 'package:muslimapp/screens/featured_screen.dart';
 import 'package:muslimapp/ulit/constants.dart';
 import 'package:muslimapp/widgets/home_banner.dart';

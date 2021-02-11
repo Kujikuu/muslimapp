@@ -7,7 +7,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'loading_indicator.dart';
 import 'location_error_widget.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QiblahMaps extends StatefulWidget {
   static final meccaLatLong = const LatLng(21.422487, 39.826206);

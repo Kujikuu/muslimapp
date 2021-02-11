@@ -2,6 +2,7 @@ import 'package:adhan/adhan.dart';
 import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -13,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await Firebase.initializeApp();
   await AndroidAlarmManager.initialize();
   runApp(MyApp());
@@ -176,7 +178,7 @@ class _MyAppState extends State<MyApp> {
 
   loadLanguage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var localeLoaded = prefs.getString("lan") ?? 'ar';
+    var localeLoaded = prefs.getString("lan") ?? 'en';
     changeLanguage(Locale(localeLoaded, ''));
   }
 
@@ -248,7 +250,7 @@ class _MyAppState extends State<MyApp> {
                         fontSize: 22,
                         fontFamily: GoogleFonts.tajawal().fontFamily))),
             fontFamily: GoogleFonts.tajawal().fontFamily,
-            platform: TargetPlatform.iOS,
+            // platform: TargetPlatform.iOS,
             primarySwatch: _color,
             brightness: _brightness,
             // primaryColor: primaryColor,

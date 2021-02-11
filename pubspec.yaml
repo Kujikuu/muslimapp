@@ -15,7 +15,6 @@ dependencies:
   # Newly reworked plugins covered by this migration guide:
   firebase_auth: 
   cloud_firestore: 
-  firebase_messaging: 
   # Updated to work with new core only plugins (no new changes):
   firebase_admob: 
   firebase_analytics: 
@@ -24,13 +23,11 @@ dependencies:
   flutter_qiblah: 
   flutter_svg:
   geolocator:
-  get:
   flutter_local_notifications: 
   location: 
   intl: 
   hijri: 
   geocoder: 
-  timezone: 
   cached_network_image: 
   http:
   rxdart:
@@ -44,7 +41,6 @@ dependencies:
   url_launcher:
   launch_review:
   nb_utils: ^3.3.0+8
-  cron:
   google_sign_in: "^4.5.1"
   share: ^0.6.5+4
   apk_admin: ^2.1.3
