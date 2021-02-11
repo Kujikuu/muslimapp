@@ -15,6 +15,7 @@ dependencies:
   # Newly reworked plugins covered by this migration guide:
   firebase_auth: 
   cloud_firestore: 
+  firebase_messaging: 
   # Updated to work with new core only plugins (no new changes):
   firebase_admob: 
   firebase_analytics: 
