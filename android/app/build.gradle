@@ -65,6 +65,8 @@ storePassword keystoreProperties['storePassword']
 }
 buildTypes {
 release {
+    minifyEnabled true
+            shrinkResources false
 signingConfig signingConfigs.release
 }
 }
