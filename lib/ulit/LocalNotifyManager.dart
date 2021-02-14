@@ -86,10 +86,10 @@ class LocalNotifyManager {
       priority: Priority.high,
       enableVibration: true,
       fullScreenIntent: true,
-      sound: RawResourceAndroidNotificationSound('azan$no'),
+      sound: RawResourceAndroidNotificationSound('azan2'),
     );
 
-    var iosChannel = IOSNotificationDetails(sound: 'azan$no.mp3');
+    var iosChannel = IOSNotificationDetails(sound: 'azan2.mp3');
     var platformChannel =
         NotificationDetails(android: androidChannel, iOS: iosChannel);
     // ignore: deprecated_member_use

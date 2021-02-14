@@ -37,7 +37,7 @@ dependencies:
   google_maps_flutter:
   shared_preferences:
   google_fonts:
-  android_alarm_manager:
+  workmanager:
   font_awesome_flutter:
   url_launcher:
   launch_review:

@@ -81,70 +81,64 @@ class _HomeScreenState extends State<HomeScreen> {
     final deviceWidth = MediaQuery.of(context).size.width;
 
     // var currntPrayer = PrayerTimes(coordinates, dateComponents, calculationParameters)
-    return !_loading
-        ? Scaffold(
-            body: SafeArea(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              DateFormat('EEEE, d MMMM y')
-                                  .format(DateTime.now()),
-                              style: TextStyle(fontSize: 12),
-                            ),
-                            Text(
-                              HijriCalendar.now().toFormat('MMMM, d yyyy'),
-                              style: TextStyle(fontSize: 12),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(CupertinoIcons.location_fill, size: 12),
-                            SizedBox(width: 4),
-                            Text(
-                              addressName,
-                              style: TextStyle(fontSize: 12),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    HomeBanner(),
-                    SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(AppLocalizations.of(context).featured,
-                            style: featTxt),
-                        GestureDetector(
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => FeaturedScreen())),
-                            child: Text(AppLocalizations.of(context).viewall,
-                                style: viewAllTxt)),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Expanded(child: BuildFeatures(deviceWidth, deviceHeight))
-                  ],
-                ),
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        DateFormat('EEEE, d MMMM y').format(DateTime.now()),
+                        style: TextStyle(fontSize: 12),
+                      ),
+                      Text(
+                        HijriCalendar.now().toFormat('MMMM, d yyyy'),
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(CupertinoIcons.location_fill, size: 12),
+                      SizedBox(width: 4),
+                      Text(
+                        addressName,
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ],
+                  )
+                ],
               ),
-            ),
-          )
-        : Center(
-            child: CircularProgressIndicator(),
-          );
+              SizedBox(height: 10),
+              HomeBanner(),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(AppLocalizations.of(context).featured, style: featTxt),
+                  GestureDetector(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FeaturedScreen())),
+                      child: Text(AppLocalizations.of(context).viewall,
+                          style: viewAllTxt)),
+                ],
+              ),
+              SizedBox(height: 10),
+              Expanded(child: BuildFeatures(deviceWidth, deviceHeight))
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Future<void> setAdreesName(String value) async {

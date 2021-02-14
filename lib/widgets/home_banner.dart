@@ -350,7 +350,7 @@ class _HomeBannerState extends State<HomeBanner> {
                     if (DateTime.now().isAfter(prayerTimes.isha) &&
                         DateTime.now().hour < 12)
                       // if (calculateDifference(_prayernxt) == 0 &&
-                      // _prayernxt == prayerTimes.fajr)
+                      //     _prayernxt == prayerTimes.fajr)
                       Expanded(
                         child: Text(
                           '${AppLocalizations.of(context).tmr} ',

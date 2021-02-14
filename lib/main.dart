@@ -1,5 +1,4 @@
 import 'package:adhan/adhan.dart';
-import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,19 +9,28 @@ import 'package:location/location.dart';
 import 'package:muslimapp/screens/welcome_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:muslimapp/ulit/LocalNotifyManager.dart';
-import 'package:muslimapp/ulit/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:workmanager/workmanager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await Firebase.initializeApp();
-  await AndroidAlarmManager.initialize();
+  Workmanager.initialize(callbackDispatcher);
+  Workmanager.registerPeriodicTask("uniqueName", "taskName",
+      inputData: {"data1": "value1"},
+      frequency: Duration(minutes: 15),
+      initialDelay: Duration(minutes: 5));
   runApp(MyApp());
   initPrayers();
-  await AndroidAlarmManager.cancel(0);
-  await AndroidAlarmManager.periodic(const Duration(minutes: 5), 0, schedules,
-      rescheduleOnReboot: true, wakeup: true);
+}
+
+void callbackDispatcher() {
+  Workmanager.executeTask((taskName, inputData) {
+    localNotifyManager.initSetting();
+    schedules();
+    return Future.value(true);
+  });
 }
 
 PrayerTimes prayerTimes;
